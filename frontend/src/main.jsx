@@ -18,7 +18,7 @@ createRoot(document.getElementById('root')).render(
     <Navbar/>
    
     <Routes>
-     <Route path='/' element = {<Home/>}/>
+     <Route path='/*' element = {<Home/>}/>
      <Route path='/about' element = {<About/>}/>
      <Route path='/register' element = {<Register/>}/>
      <Route path='/login' element = {<Login/>}/>

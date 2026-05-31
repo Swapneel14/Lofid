@@ -1,0 +1,213 @@
+:root{
+    --primary:#2563EB;
+    --secondary:#10B981;
+    --accent:#FBBF24;
+    --bg:#F8FAFC;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+
+    min-height:100vh;
+
+    padding:1.4rem 1rem;
+
+    background:#EEF4FF;
+
+    border-right:1px solid #D6E4FF;
+
+    box-shadow:4px 0 18px rgba(0,0,0,0.04);
+}
+
+
+/* HEADINGS */
+
+.sidebar h5{
+
+    color:#1D4ED8;
+
+    font-size:0.78rem;
+
+    text-transform:uppercase;
+
+    letter-spacing:1.6px;
+
+    font-weight:700;
+
+    margin-bottom:1rem;
+
+    padding-left:0.9rem;
+
+    position:relative;
+}
+
+/* blue accent bar */
+
+.sidebar h5::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:4px;
+    height:18px;
+
+    background:linear-gradient(
+        to bottom,
+        #2563EB,
+        #10B981
+    );
+
+    border-radius:10px;
+}
+
+
+
+/* LINKS */
+
+.sidebar a{
+
+    display:flex;
+
+    align-items:center;
+
+    text-decoration:none;
+
+    color:#334155;
+
+    padding:0.85rem 1rem;
+
+    border-radius:14px;
+
+    margin-bottom:0.45rem;
+
+    font-weight:500;
+
+    transition:all 0.25s ease;
+}
+
+
+/* HOVER */
+
+.sidebar a:hover{
+
+    background:rgb(159, 213, 164);
+
+    color:#2563EB;
+
+    transform:translateX(5px);
+
+    box-shadow:0 8px 20px rgba(37,99,235,0.08);
+}
+
+
+/* ACTIVE */
+
+.sidebar a.active{
+
+    background:linear-gradient(
+        90deg,
+        rgba(37,99,235,0.12),
+        rgba(16,185,129,0.10)
+    );
+
+    color:#1D4ED8;
+
+    font-weight:600;
+
+    border-left:4px solid #10B981;
+}
+
+
+/* DIVIDER */
+
+.sidebar hr{
+
+    border:none;
+
+    height:2px;
+
+    background:linear-gradient(
+        90deg,
+        #2563EB,
+        #10B981,
+        transparent
+    );
+
+    margin:1.5rem 0;
+}
+
+/* Responsiveness */
+/* MOBILE BUTTON */
+
+.mobile-menu-btn{
+
+    display:none;
+
+    position:fixed;
+
+    top:90px;
+
+    left:15px;
+
+    z-index:1200;
+
+    border:none;
+
+    background:#2563EB;
+
+    color:white;
+
+    padding:10px 14px;
+
+    border-radius:10px;
+
+    font-size:1.2rem;
+}
+
+
+/* MOBILE RESPONSIVE */
+
+@media(max-width:992px){
+
+    .mobile-menu-btn{
+
+        display:block;
+    }
+
+    .sidebar-wrapper{
+
+        position:fixed;
+
+        top:0;
+
+        left:-100%;
+
+        width:260px;
+
+        height:100vh;
+
+        z-index:1100;
+
+        transition:0.35s ease;
+    }
+
+    .sidebar-wrapper.show{
+
+        left:0;
+    }
+
+    .content-area{
+
+        width:100%;
+
+        padding-top:70px;
+    }
+
+}
