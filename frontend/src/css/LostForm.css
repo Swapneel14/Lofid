@@ -6,6 +6,8 @@
     --text:#1E293B;
 }
 
+/* PAGE */
+
 .lost-form-page{
 
     min-height:100vh;
@@ -14,7 +16,7 @@
     justify-content:center;
     align-items:center;
 
-    padding:3rem 1.5rem;
+    padding:2rem 1rem;
 
     background:linear-gradient(
         135deg,
@@ -23,6 +25,9 @@
         #CCFBF1 100%
     );
 }
+
+
+/* FORM CARD */
 
 .lost-form{
 
@@ -40,6 +45,9 @@
     border:1px solid rgba(37,99,235,0.08);
 }
 
+
+/* TITLE */
+
 .form-title{
 
     text-align:center;
@@ -53,6 +61,9 @@
     font-weight:700;
 }
 
+
+/* FORM GROUP */
+
 .form-group{
 
     display:flex;
@@ -60,6 +71,9 @@
 
     margin-bottom:1.4rem;
 }
+
+
+/* LABELS */
 
 .form-group label{
 
@@ -70,7 +84,12 @@
     font-weight:600;
 }
 
+
+/* INPUTS */
+
 .form-input{
+
+    width:100%;
 
     padding:0.9rem 1rem;
 
@@ -89,6 +108,7 @@
     color:var(--text);
 }
 
+
 .form-input:focus{
 
     border-color:var(--primary);
@@ -98,6 +118,9 @@
     background:white;
 }
 
+
+/* TEXTAREA */
+
 .textarea-input{
 
     resize:none;
@@ -105,7 +128,12 @@
     min-height:120px;
 }
 
+
+/* FILE INPUT */
+
 .file-input{
+
+    width:100%;
 
     padding:0.75rem;
 
@@ -113,6 +141,9 @@
 
     cursor:pointer;
 }
+
+
+/* BUTTON */
 
 .submit-btn{
 
@@ -141,6 +172,7 @@
     transition:0.3s ease;
 }
 
+
 .submit-btn:hover{
 
     transform:translateY(-2px);
@@ -148,15 +180,80 @@
     box-shadow:0 10px 22px rgba(16,185,129,0.25);
 }
 
+
+
+/* ---------------- TABLET / MOBILE ---------------- */
+
 @media(max-width:768px){
+
+    .lost-form-page{
+
+        padding:1.25rem 0.85rem;
+
+        align-items:flex-start;
+    }
 
     .lost-form{
 
-        padding:2rem 1.3rem;
+        max-width:100%;
+
+        padding:1.7rem 1.1rem;
+
+        border-radius:16px;
     }
 
     .form-title{
 
-        font-size:1.7rem;
+        font-size:1.55rem;
+
+        margin-bottom:1.4rem;
     }
+
+    .form-input{
+
+        padding:0.82rem 0.9rem;
+
+        font-size:0.94rem;
+    }
+
+    .textarea-input{
+
+        min-height:100px;
+    }
+
+}
+
+
+
+/* ---------------- SMALL PHONES ---------------- */
+
+@media(max-width:480px){
+
+    .lost-form-page{
+
+        padding:0.7rem;
+    }
+
+    .lost-form{
+
+        padding:1.1rem;
+
+        border-radius:14px;
+    }
+
+    .form-title{
+
+        font-size:1.3rem;
+    }
+
+    .form-group{
+
+        margin-bottom:1rem;
+    }
+
+    .submit-btn{
+
+        padding:0.85rem;
+    }
+
 }
