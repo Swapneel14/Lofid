@@ -1,0 +1,172 @@
+/* Footer.css */
+
+:root{
+    --primary:#2563EB;
+    --secondary:#10B981;
+    --accent:#FBBF24;
+    --bg:#F8FAFC;
+    --text:#1E293B;
+}
+
+.footer{
+    background:linear-gradient(
+        135deg,
+        #0F172A 0%,
+        #1E3A8A 45%,
+        #0F766E 100%
+    );
+
+    color:white;
+
+    padding:3rem 2.5rem 1rem;
+
+    margin-top:4rem;
+
+    box-shadow:0 -4px 14px rgba(0,0,0,0.12);
+}
+
+.footer-container{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:3rem;
+
+    flex-wrap:wrap;
+}
+
+.footer-brand{
+    flex:1;
+    min-width:240px;
+}
+
+.footer-logo{
+    font-size:1.5rem;
+    font-weight:700;
+
+    margin-bottom:0.8rem;
+
+    letter-spacing:0.5px;
+
+    cursor:pointer;
+
+    transition:0.3s ease;
+}
+
+.footer-logo:hover{
+    color:var(--accent);
+
+    transform:translateY(-2px);
+}
+
+.footer-text{
+    color:rgba(255,255,255,0.78);
+
+    line-height:1.7;
+
+    max-width:320px;
+
+    font-size:0.95rem;
+}
+
+/* LINKS SECTION */
+
+.footer-links{
+    display:flex;
+    flex-direction:column;
+
+    gap:0.9rem;
+
+    min-width:160px;
+}
+
+.footer-title{
+    font-size:1.05rem;
+    font-weight:600;
+
+    margin-bottom:0.4rem;
+
+    color:var(--accent);
+}
+
+.footer-links a{
+    text-decoration:none;
+
+    color:white;
+
+    width:fit-content;
+
+    position:relative;
+
+    transition:0.25s ease;
+}
+
+.footer-links a:hover{
+    color:#dbeafe;
+}
+
+.footer-links a::after{
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-4px;
+
+    width:0%;
+    height:2px;
+
+    background:var(--accent);
+
+    transition:0.3s ease;
+}
+
+.footer-links a:hover::after{
+    width:100%;
+}
+
+/* CONTACT SECTION */
+
+.footer-contact{
+    display:flex;
+    flex-direction:column;
+
+    gap:0.8rem;
+
+    min-width:220px;
+}
+
+.footer-contact p{
+    margin:0;
+
+    color:rgba(255,255,255,0.82);
+
+    font-size:0.95rem;
+}
+
+/* BOTTOM */
+
+.footer-bottom{
+    border-top:1px solid rgba(255,255,255,0.15);
+
+    margin-top:2.5rem;
+    padding-top:1rem;
+
+    text-align:center;
+
+    color:rgba(255,255,255,0.65);
+
+    font-size:0.9rem;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+    .footer-container{
+        flex-direction:column;
+    }
+
+    .footer{
+        padding:2.5rem 1.5rem 1rem;
+    }
+}
