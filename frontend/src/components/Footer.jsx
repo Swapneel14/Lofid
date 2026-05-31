@@ -42,7 +42,7 @@ function Footer() {
 
                         <p>📧 support@campuslostfound.com</p>
 
-                        <p>📞 +91 98765 43210</p>
+                        <p>📞 +91 XXXXX XXXXX</p>
 
                     </div>
                 </div>
