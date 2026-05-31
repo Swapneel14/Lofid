@@ -24,13 +24,12 @@ function Home() {
 
             <div className="row g-0">
 
-                 <div className={`col-lg-2 sidebar-wrapper ${
-            showSidebar ? "show" : ""
-        }`}>
+                <div className={`col-lg-2 sidebar-wrapper ${showSidebar ? "show" : ""
+                    }`}>
 
-            <SideBar/>
+                    <SideBar />
 
-        </div>
+                </div>
                 <div className="col-lg-10 col-md-9">
 
                     <Routes>
@@ -46,10 +45,7 @@ function Home() {
                             element={<Profile />}
                         />
 
-                        <Route
-                            path="messages"
-                            element={<Messages />}
-                        />
+                       
 
                         <Route
                             path="messages"
@@ -57,12 +53,12 @@ function Home() {
                         />
 
                         <Route
-                         path="report-lost"
-                         element={<LostForm/>}
+                            path="report-lost"
+                            element={<LostForm />}
                         />
                         <Route
-                         path="report-found"
-                         element={<FoundForm/>}
+                            path="report-found"
+                            element={<FoundForm />}
                         />
 
 
