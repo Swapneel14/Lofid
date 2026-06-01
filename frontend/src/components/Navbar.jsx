@@ -6,59 +6,59 @@ import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/react'
 function Navbar() {
     return (
         <>
-            <nav className="navbar text-2xl">
+           <nav className="navbar">
 
-                <div className="logo text-[25px] bg-linear-to-r from-blue-400 to-indigo-900 text-white py-2 px-3.5 rounded">
-                    Campus Lost & Found
-                </div>
-                {/* Search - Bar */}
-                <div className="search-container">
+    <div className="logo">
+        Campus Lost & Found
+    </div>
 
-                    <input
-                        type="text"
-                        placeholder="Search items..."
-                        className="search-input text-[120px]"
-                    />
+    <div className="search-container">
+        <input
+            type="text"
+            placeholder="Search items..."
+            className="search-input"
+        />
 
-                    <button className="search-btn ">
-                        🔍
+        <button className="search-btn">
+            🔍
+        </button>
+    </div>
+
+    <ul className="nav-links">
+
+        <li>
+            <Link to="/">Home</Link>
+        </li>
+
+        <li>
+            <Link to="/about">About</Link>
+        </li>
+
+        <li className="auth-section">
+            <Show when="signed-out">
+                <SignUpButton mode="modal">
+                    <button className="register-btn">
+                        Register
                     </button>
-                </div>
+                </SignUpButton>
+            </Show>
 
-                <ul className="nav-links mt-3 flex items-center gap-5">
+            <Show when="signed-in">
+                <UserButton
+                    appearance={{
+                        elements: {
+                            userButtonTrigger: "w-10 h-10",
+                            userButtonAvatarBox: "w-10 h-10",
+                            userButtonAvatarImage: "w-10 h-10 object-cover"
+                        }
+                    }}
+                />
+            </Show>
+        </li>
 
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
+    </ul>
 
-                    <li>
-                        <Link to="/about">About</Link>
-                    </li>
-
-                    <li>
-                        <Show when="signed-out">
-                            <SignUpButton mode="modal">
-                                <button className="register-btn">
-                                    Register
-                                </button>
-                            </SignUpButton>
-                        </Show>
-                        <Show when="signed-in">
-                            <UserButton appearance={{
-                                elements: {
-                                    // Forces the outer button container to scale
-                                    userButtonTrigger: "w-12 h-12 !size-12",
-                                    // Forces the wrapper element inside the trigger to match
-                                    userButtonAvatarBox: "w-12 h-12 !size-12",
-                                    // Forces the actual visual avatar image to stretch to full scale
-                                    userButtonAvatarImage: "w-12 h-12 !size-12 object-cover"
-                                }
-                            }} />
-                        </Show>
-                    </li>
-                </ul>
-
-            </nav>
+</nav>
         </>
     );
 }
