@@ -1,29 +1,34 @@
-:root{
-    --primary:#2563EB;
-    --secondary:#10B981;
-    --accent:#FBBF24;
-    --bg:#F8FAFC;
-    --text:#1E293B;
+.lost-form-wrapper {
+
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(
+    135deg,
+    #469bfe35,
+    #51f7b72a
+  );
+
+  padding: 40px 16px;
 }
 
 /* PAGE */
 
 .lost-form-page{
 
-    min-height:100vh;
+  background-color: #ffffff;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+  border-radius: 30px;
 
     padding:2rem 1rem;
 
-    background:linear-gradient(
-        135deg,
-        #F8FAFC 0%,
-        #DBEAFE 50%,
-        #CCFBF1 100%
-    );
+  padding: 40px;
+
+  width: 100%;
+  max-width: 600px;
 }
 
 
@@ -31,34 +36,34 @@
 
 .lost-form{
 
-    width:100%;
-    max-width:550px;
+  color: #1a56db;
 
-    background:white;
+  font-size: 28px;
 
-    padding:2.5rem;
+  margin-bottom: 28px;
 
-    border-radius:20px;
-
-    box-shadow:0 10px 30px rgba(0,0,0,0.12);
-
-    border:1px solid rgba(37,99,235,0.08);
+  text-align: center;
 }
+
+.form-group {
+
+  margin-bottom: 20px;
 
 
 /* TITLE */
 
 .form-title{
 
-    text-align:center;
+  gap: 6px;
+}
 
-    margin-bottom:2rem;
+.form-group label {
 
-    color:var(--primary);
+  font-weight: 600;
 
-    font-size:2rem;
+  font-size: 14px;
 
-    font-weight:700;
+  color: #333;
 }
 
 
@@ -66,10 +71,11 @@
 
 .form-group{
 
-    display:flex;
-    flex-direction:column;
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
 
-    margin-bottom:1.4rem;
+  border-color: #1a56db;
 }
 
 
@@ -77,11 +83,25 @@
 
 .form-group label{
 
-    margin-bottom:0.55rem;
+  font-size: 13px;
 
-    color:var(--text);
+  color: #555;
 
-    font-weight:600;
+  background: linear-gradient(
+    to bottom,
+    #2564eb1b,
+    #10b98117
+  );
+
+  border-left: 3px solid #12b352;
+
+  padding: 10px 14px;
+
+  border-radius: 6px;
+
+  margin-bottom: 8px;
+
+  line-height: 1.8;
 }
 
 
@@ -93,29 +113,42 @@
 
     padding:0.9rem 1rem;
 
-    border:1.5px solid #CBD5E1;
+.file-input-row {
 
-    border-radius:12px;
+  display: flex;
 
-    font-size:0.96rem;
+  gap: 10px;
 
-    outline:none;
+  align-items: stretch;
+}
 
-    transition:0.3s ease;
+.file-name-display {
 
-    background:#F8FAFC;
+  flex: 1;
 
-    color:var(--text);
+  box-sizing: border-box;
+
+  color: #1e293b;
+
+  font-weight: 600;
 }
 
 
 .form-input:focus{
 
-    border-color:var(--primary);
+  border-radius: 10px;
 
-    box-shadow:0 0 0 4px rgba(37,99,235,0.12);
+  cursor: pointer;
 
-    background:white;
+  white-space: nowrap;
+
+  transition: background-color 0.2s;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
 }
 
 
@@ -123,9 +156,9 @@
 
 .textarea-input{
 
-    resize:none;
+.file-select-btn:hover {
 
-    min-height:120px;
+  background-color: #bfdbfe;
 }
 
 
@@ -137,9 +170,11 @@
 
     padding:0.75rem;
 
-    background:#EFF6FF;
+  border: 1px solid #dbeafe;
 
-    cursor:pointer;
+  border-radius: 12px;
+
+  padding: 10px;
 }
 
 
@@ -147,37 +182,65 @@
 
 .submit-btn{
 
-    width:100%;
+  display: flex;
 
-    border:none;
+  justify-content: space-between;
 
-    padding:0.95rem;
+  align-items: center;
 
-    border-radius:12px;
+  padding: 8px 10px;
 
-    background:linear-gradient(
-        135deg,
-        #10B981 0%,
-        #0F766E 100%
-    );
+  border-bottom: 1px solid #e5e7eb;
+}
 
-    color:white;
+.selected-file-item:last-child {
+  border-bottom: none;
+}
 
-    font-size:1rem;
+.remove-file-btn {
 
-    font-weight:600;
+  background: none;
 
-    cursor:pointer;
+  border: none;
 
-    transition:0.3s ease;
+  color: #dc2626;
+
+  font-size: 16px;
+
+  cursor: pointer;
+
+  font-weight: bold;
+}
+
+.remove-file-btn:hover {
+
+  transform: scale(1.1);
 }
 
 
 .submit-btn:hover{
 
-    transform:translateY(-2px);
+  width: 100%;
 
-    box-shadow:0 10px 22px rgba(16,185,129,0.25);
+  padding: 12px;
+
+  background-color: #1a56db;
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  border: none;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  margin-top: 10px;
+
+  transition: background-color 0.2s;
 }
 
 
@@ -202,7 +265,7 @@
         border-radius:16px;
     }
 
-    .form-title{
+  .file-select-btn {
 
         font-size:1.55rem;
 
