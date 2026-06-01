@@ -15,13 +15,15 @@
   padding: 40px 16px;
 }
 
-.form-card {
+/* PAGE */
+
+.lost-form-page{
 
   background-color: #ffffff;
 
   border-radius: 30px;
 
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding:2rem 1rem;
 
   padding: 40px;
 
@@ -29,7 +31,10 @@
   max-width: 600px;
 }
 
-.form-header {
+
+/* FORM CARD */
+
+.lost-form{
 
   color: #1a56db;
 
@@ -44,8 +49,10 @@
 
   margin-bottom: 20px;
 
-  display: flex;
-  flex-direction: column;
+
+/* TITLE */
+
+.form-title{
 
   gap: 6px;
 }
@@ -59,22 +66,10 @@
   color: #333;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
 
-  padding: 10px 12px;
+/* FORM GROUP */
 
-  border: 1px solid #ccc;
-
-  border-radius: 10px;
-
-  font-size: 14px;
-
-  outline: none;
-
-  transition: border 0.2s;
-}
+.form-group{
 
 .form-group input:focus,
 .form-group select:focus,
@@ -83,7 +78,10 @@
   border-color: #1a56db;
 }
 
-.image-instructions {
+
+/* LABELS */
+
+.form-group label{
 
   font-size: 13px;
 
@@ -106,14 +104,14 @@
   line-height: 1.8;
 }
 
-.required {
-  color: red;
-}
 
-.optional {
-  color: #10b981;
-  font-size: 13px;
-}
+/* INPUTS */
+
+.form-input{
+
+    width:100%;
+
+    padding:0.9rem 1rem;
 
 .file-input-row {
 
@@ -135,17 +133,8 @@
   font-weight: 600;
 }
 
-.file-select-btn {
 
-  padding: 10px 16px;
-
-  background-color: #dbeafe;
-
-  color: #0c2b6e !important;
-
-  font-weight: 600;
-
-  font-size: 14px;
+.form-input:focus{
 
   border-radius: 10px;
 
@@ -162,22 +151,24 @@
   box-sizing: border-box;
 }
 
-.file-name-display,
-.file-select-btn {
 
-  height: 44px;
-}
+/* TEXTAREA */
+
+.textarea-input{
 
 .file-select-btn:hover {
 
   background-color: #bfdbfe;
 }
 
-.selected-files-box {
 
-  margin-top: 12px;
+/* FILE INPUT */
 
-  background: #f8fafc;
+.file-input{
+
+    width:100%;
+
+    padding:0.75rem;
 
   border: 1px solid #dbeafe;
 
@@ -186,7 +177,10 @@
   padding: 10px;
 }
 
-.selected-file-item {
+
+/* BUTTON */
+
+.submit-btn{
 
   display: flex;
 
@@ -223,7 +217,8 @@
   transform: scale(1.1);
 }
 
-.submit-btn {
+
+.submit-btn:hover{
 
   width: 100%;
 
@@ -248,25 +243,80 @@
   transition: background-color 0.2s;
 }
 
-.submit-btn:hover {
 
-  background-color: #1440a8;
-}
 
-@media (max-width: 640px) {
+/* ---------------- TABLET / MOBILE ---------------- */
 
-  .form-card {
+@media(max-width:768px){
 
-    padding: 28px 20px;
-  }
+    .lost-form-page{
 
-  .file-input-row {
+        padding:1.25rem 0.85rem;
 
-    flex-direction: column;
-  }
+        align-items:flex-start;
+    }
+
+    .lost-form{
+
+        max-width:100%;
+
+        padding:1.7rem 1.1rem;
+
+        border-radius:16px;
+    }
 
   .file-select-btn {
 
-    width: 100%;
-  }
+        font-size:1.55rem;
+
+        margin-bottom:1.4rem;
+    }
+
+    .form-input{
+
+        padding:0.82rem 0.9rem;
+
+        font-size:0.94rem;
+    }
+
+    .textarea-input{
+
+        min-height:100px;
+    }
+
+}
+
+
+
+/* ---------------- SMALL PHONES ---------------- */
+
+@media(max-width:480px){
+
+    .lost-form-page{
+
+        padding:0.7rem;
+    }
+
+    .lost-form{
+
+        padding:1.1rem;
+
+        border-radius:14px;
+    }
+
+    .form-title{
+
+        font-size:1.3rem;
+    }
+
+    .form-group{
+
+        margin-bottom:1rem;
+    }
+
+    .submit-btn{
+
+        padding:0.85rem;
+    }
+
 }
