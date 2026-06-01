@@ -17,12 +17,20 @@ connectDB();
 app.use(express.json());
 app.use(cors())
 
-app.use('/api/inngest', serve({ client: inngest, functions }))
+
 app.use(clerkMiddleware())
 
 app.get("/", (req, res) => {
     res.send("API working")
 })
+app.get("/test", (req, res) => {
+  res.send("test route works");
+});
+app.use('/api/inngest', serve({ client: inngest, functions }))
+
+
+
+
 
 app.listen(port, () => {
     console.log(`Server started at http://localhost:${port}`)
