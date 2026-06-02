@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const lostItemSchema = new mongoose.Schema(
   {
-    user: {
-      type: String,
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User", // references User_id (Clerk user id)
       required: true,
     },
