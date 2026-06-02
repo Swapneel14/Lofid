@@ -1,4 +1,5 @@
 import { Inngest } from "inngest";
+import User from "../models/User.js";
 
 export const inngest = new Inngest({ id: "LoFid" });
 
@@ -11,13 +12,8 @@ const syncUserCreation = inngest.createFunction(
   },
   async ({ event }) => {
     try {
-      const {
-        id,
-        first_name,
-        last_name,
-        email_addresses,
-        image_url,
-      } = event.data;
+      const { id, first_name, last_name, email_addresses, image_url } =
+        event.data;
 
       const userData = {
         _id: id,
@@ -26,12 +22,15 @@ const syncUserCreation = inngest.createFunction(
         image: image_url,
       };
 
-      console.log(userData);
+      await User.create(userData);
+
+      console.log("User Created");
     } catch (err) {
       console.error(err);
     }
   }
 );
+
 
 //delete user from database
 
@@ -42,22 +41,11 @@ const syncUserDeletion = inngest.createFunction(
   },
   async ({ event }) => {
     try {
-      const {
-        id,
-        first_name,
-        last_name,
-        email_addresses,
-        image_url,
-      } = event.data;
+      const { id } = event.data;
 
-      const userData = {
-        _id: id,
-        email: email_addresses?.[0]?.email_address,
-        name: `${first_name || ""} ${last_name || ""}`.trim(),
-        image: image_url,
-      };
+      await User.findByIdAndDelete(id);
 
-      console.log(userData);
+      console.log("User Deleted");
     } catch (err) {
       console.error(err);
     }
