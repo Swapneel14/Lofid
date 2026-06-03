@@ -8,6 +8,7 @@ import { connectDB } from "./config/db.js";
 import { clerkMiddleware } from '@clerk/express'
 import { functions, inngest } from "./inngest/index.js";
 import {serve} from 'inngest/express';
+import lostRouter from "./routes/LostItemRoute.js";
 
 const app = express();
 const port = 6769;
@@ -28,9 +29,7 @@ app.get("/test", (req, res) => {
 });
 app.use('/api/inngest', serve({ client: inngest, functions }))
 
-
-
-
+app.use("/api/lost-item", lostRouter)
 
 app.listen(port, () => {
     console.log(`Server started at http://localhost:${port}`)
