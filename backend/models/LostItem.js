@@ -60,10 +60,16 @@ const lostItemSchema = new mongoose.Schema(
       trim: true,
     },
 
+    // status: {
+    //   type: String,
+    //   enum: ["Lost", "Found", "Claimed"],
+    //   default: "Lost",
+    // },
+
     status: {
       type: String,
-      enum: ["Lost", "Found", "Claimed"],
       default: "Lost",
+      enum: ["Lost"],
     },
   },
   {
