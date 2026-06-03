@@ -1,4 +1,4 @@
-import { useUser, useClerk } from "@clerk/react";
+import { useUser, useClerk } from "@clerk/clerk-react";
 import { useEffect } from "react";
 
 export default function AuthGuard() {

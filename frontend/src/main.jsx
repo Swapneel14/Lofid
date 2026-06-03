@@ -11,8 +11,9 @@ import Register from './pages/Register.jsx'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
 import Login from './pages/Login.jsx'
-import { ClerkProvider } from '@clerk/react'
+import { ClerkProvider } from '@clerk/clerk-react'
 import AuthGuard from './components/AuthGuard.jsx'
+
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
 if (!clerkPubKey) {
