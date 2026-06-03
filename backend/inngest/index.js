@@ -52,4 +52,6 @@ const syncUserDeletion = inngest.createFunction(
   }
 );
 
+
+
 export const functions = [syncUserCreation,syncUserDeletion];
