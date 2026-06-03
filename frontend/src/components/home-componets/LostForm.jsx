@@ -1,6 +1,6 @@
 import "../../css/LostForm.css";
 import axios from "axios";
-import { useUser } from "@clerk/clerk-react";
+import { useUser } from "@clerk/react";
 import { useState } from "react";
 
 function LostForm() {
@@ -46,7 +46,7 @@ function LostForm() {
 
     try {
       const response = await axios.post(
-        "http://localhost:6769/api/lost-item/create-lost-item",
+        "http://localhost:6769/api/item/create-lost-item",
         {
           userId: user?.id, // replace with logged-in user's id
           itemName: formData.itemName,
