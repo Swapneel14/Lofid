@@ -14,7 +14,7 @@ import router from "./routes/ItemsRoutes.js";
 const app = express();
 const port = 6769;
 
-await connectDB();
+
 
 // Middleware
 app.use(express.json());
@@ -41,7 +41,7 @@ app.use(
   })
 );
 
-app.use("/api/lost-item", lostRouter);
+
 
 // Start Server
 const startServer = async () => {
