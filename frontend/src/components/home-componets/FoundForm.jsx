@@ -1,7 +1,22 @@
 import "../../css/FoundForm.css";
+import axios from "axios";
+import { useUser } from "@clerk/react";
 import { useState } from "react";
 
 function FoundForm() {
+
+
+  const { user } = useUser();
+
+  const [formData, setFormData] = useState({
+    itemName: "",
+    category: "",
+    description: "",
+    LocationFound: "",
+  });
+
+  // const [selectedFiles, setSelectedFiles] = useState([]);
+
 
   const today = new Date().toISOString().split("T")[0]; // Today's date as YYYY-MM-DD
 
@@ -15,21 +30,71 @@ function FoundForm() {
 
   const removeFile = (indexToRemove) => {
 
-    setSelectedFiles( (prevFiles) =>
+    setSelectedFiles((prevFiles) =>
       prevFiles.filter((_, index) => index !== indexToRemove),
 
     );
   };
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   if (selectedFiles.length < 3) {
+  //     alert("Please upload at least 3 images.");
+  //     return;
+  //   }
+
+  //   alert("Form submitted successfully!");
+  // };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      alert("Please login first");
+      return;
+    }
 
     if (selectedFiles.length < 3) {
       alert("Please upload at least 3 images.");
       return;
     }
 
-    alert("Form submitted successfully!");
+    console.log({
+      userId: user?.id,
+      ...formData,
+    });
+
+    try {
+      const response = await axios.post(
+        "http://localhost:6769/api/item/create-found-item",
+        {
+          userId: user?.id,
+          itemName: formData.itemName,
+          category: formData.category,
+          description: formData.description,
+          LocationFound: formData.LocationFound,
+          images: selectedFiles.map((file) => file.name), // replace later with uploaded image URLs
+        }
+      );
+
+      if (response.data.success) {
+        alert("Found item reported successfully!");
+
+        setFormData({
+          itemName: "",
+          category: "",
+          description: "",
+          LocationFound: "",
+        });
+
+        setSelectedFiles([]);
+      }
+    } catch (error) {
+      console.log(error);
+
+      alert(error.response?.data?.message || "Failed to submit report");
+    }
   };
 
   return (
@@ -41,13 +106,33 @@ function FoundForm() {
           {/* Item Name */}
           <div className="form-group">
             <label>Item Name <span className="required">*</span></label>
-            <input type="text" placeholder="e.g. Black Wallet" required />
+            <input
+              type="text"
+              placeholder="e.g. Black Wallet"
+              value={formData.itemName}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  itemName: e.target.value,
+                })
+              }
+              required
+            />
           </div>
 
           {/* Category Dropdown */}
           <div className="form-group">
             <label>Item Category <span className="required">*</span></label>
-            <select required>
+            <select
+              value={formData.category}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  category: e.target.value,
+                })
+              }
+              required
+            >
               <option value="">Select a category</option>
               <option>Electronics</option>
               <option>Clothing & Accessories</option>
@@ -80,15 +165,13 @@ function FoundForm() {
             <div className="file-input-row">
               <input
                 type="text"
-                className={`file-name-display ${
-                  selectedFiles.length >= 3 ? "success-text" : "error-text"
-                }`}
+                className={`file-name-display ${selectedFiles.length >= 3 ? "success-text" : "error-text"
+                  }`}
                 value={
                   selectedFiles.length === 0
                     ? "0/3 images uploaded"
-                    : `${selectedFiles.length}/3 images uploaded ${
-                        selectedFiles.length >= 3 ? "✅" : "❌"
-                      }`
+                    : `${selectedFiles.length}/3 images uploaded ${selectedFiles.length >= 3 ? "✅" : "❌"
+                    }`
                 }
                 readOnly
               />
@@ -129,14 +212,24 @@ function FoundForm() {
             <textarea
               rows="4"
               placeholder="Describe the item in detail — color, brand, condition, any markings etc."
+              value={formData.description}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  description: e.target.value,
+                })
+              }
+              required
             />
           </div>
 
+
+          {/* Marking this as unnecessary */}
           {/* Time When Found */}
-          <div className="form-group">
+          {/* <div className="form-group">
             <label>Time When Found <span className="required">*</span></label>
             <input type="time" required />
-          </div>
+          </div> */}
 
           {/* Location */}
           <div className="form-group">
@@ -144,6 +237,13 @@ function FoundForm() {
             <input
               type="text"
               placeholder="e.g. Library, CST department corridor, Canteen"
+              value={formData.LocationFound}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  LocationFound: e.target.value,
+                })
+              }
               required
             />
           </div>

@@ -8,12 +8,13 @@ import { connectDB } from "./config/db.js";
 
 import { clerkMiddleware } from "@clerk/express";
 import { functions, inngest } from "./inngest/index.js";
-import { serve } from "inngest/express";
-
-import lostRouter from "./routes/LostItemRoute.js";
+import {serve} from 'inngest/express';
+import router from "./routes/ItemsRoutes.js";
 
 const app = express();
-const port = process.env.PORT || 6769;
+const port = 6769;
+
+await connectDB();
 
 // Middleware
 app.use(express.json());
@@ -28,6 +29,9 @@ app.get("/", (req, res) => {
 app.get("/test", (req, res) => {
   res.send("test route works");
 });
+app.use('/api/inngest', serve({ client: inngest, functions }))
+
+app.use("/api/item", router);
 
 app.use(
   "/api/inngest",

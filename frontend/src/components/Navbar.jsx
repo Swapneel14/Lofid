@@ -2,11 +2,10 @@ import React from "react";
 import "../css/Navbar.css";
 import { Link } from "react-router-dom";
 import {
-  SignedIn,
-  SignedOut,
+  Show,
   SignUpButton,
   UserButton,
-} from "@clerk/clerk-react";
+} from "@clerk/react";
 
 function Navbar() {
   return (
@@ -34,7 +33,7 @@ function Navbar() {
           </li>
 
           <li className="auth-section">
-            <SignedOut>
+            {/* <SignedOut>
               <SignUpButton mode="modal">
                 <button className="register-btn">Register</button>
               </SignUpButton>
@@ -50,7 +49,19 @@ function Navbar() {
                   },
                 }}
               />
-            </SignedIn>
+            </SignedIn> */}
+
+
+              {/* //for the latest package setup of clerk */}
+            <Show when="signed-out">
+              <SignUpButton mode="modal">
+                <button className="register-btn">Register</button>
+              </SignUpButton>
+            </Show>
+
+            <Show when="signed-in">
+              <UserButton />
+            </Show>
           </li>
         </ul>
       </nav>
