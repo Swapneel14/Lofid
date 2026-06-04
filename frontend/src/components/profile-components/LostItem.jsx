@@ -1,56 +1,51 @@
 import React  from "react";
-import "../../css/LostItem.css";
+import "../../css/Item.css";
 
-function LostReportCard({ report }) {
+function ReportCard({ report }) {
   return (
     <div className="report-card">
 
-      <div className="report-card-header">
+      <div className="report-header">
+
         <h3>{report.itemName}</h3>
 
-        <span className="report-status">
-          {report.status}
-        </span>
-      </div>
-
-      <div className="report-card-body">
-
-        <div className="report-field">
-          <span className="field-label">Category</span>
-          <span className="field-value">
-            {report.category}
-          </span>
-        </div>
-
-        <div className="report-field">
-          <span className="field-label">Location</span>
-          <span className="field-value">
-            {report.lostLocation}
-          </span>
-        </div>
-
-        <div className="report-field">
-          <span className="field-label">Date</span>
-          <span className="field-value">
-            {new Date(report.lostDate).toLocaleDateString()}
-          </span>
-        </div>
-
-        <div className="report-field">
-          <span className="field-label">Time</span>
-          <span className="field-value">
-            {report.lostTime}
-          </span>
-        </div>
+        <span
+    className={`report-status ${
+        report.status === "Found"
+            ? "found"
+            : "lost"
+    }`}
+>
+    {report.status}
+</span>
 
       </div>
 
-      <div className="report-description">
-        {report.description}
+      <div className="report-info">
+
+        <div>
+          <span className="label">Category</span>
+          <p>{report.category}</p>
+        </div>
+
+        <div>
+          <span className="label">Location</span>
+          <p>{report.lostLocation}</p>
+        </div>
+
+        <div>
+          <span className="label">Date</span>
+          <p>
+            {new Date(
+              report.lostDate
+            ).toLocaleDateString()}
+          </p>
+        </div>
+
       </div>
 
     </div>
   );
 }
 
-export default LostReportCard;
+export default ReportCard;
