@@ -27,6 +27,7 @@ const syncUserCreation = inngest.createFunction(
       console.log("User Created");
     } catch (err) {
       console.error(err);
+      throw err;
     }
   }
 );
@@ -48,6 +49,7 @@ const syncUserDeletion = inngest.createFunction(
       console.log("User Deleted");
     } catch (err) {
       console.error(err);
+      throw err;
     }
   }
 );
