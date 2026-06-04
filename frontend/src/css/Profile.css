@@ -512,3 +512,126 @@
     }
 
 }
+
+/* ===========================
+   REPORTS SECTION
+=========================== */
+
+.reports-container{
+    width:100%;
+    margin-top:30px;
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.reports-column{
+    background:#ffffff;
+    border-radius:16px;
+    padding:18px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+
+    min-width:0;
+}
+
+.reports-title{
+    margin-bottom:16px;
+    padding-bottom:10px;
+
+    border-bottom:1px solid #e5e7eb;
+
+    font-size:1.25rem;
+    font-weight:600;
+    color:#1f2937;
+}
+
+/* ===========================
+   SCROLLBAR
+=========================== */
+
+.reports-column::-webkit-scrollbar{
+    width:6px;
+}
+
+.reports-column::-webkit-scrollbar-track{
+    background:#f3f4f6;
+    border-radius:10px;
+}
+
+.reports-column::-webkit-scrollbar-thumb{
+    background:#cbd5e1;
+    border-radius:10px;
+}
+
+.reports-column::-webkit-scrollbar-thumb:hover{
+    background:#94a3b8;
+}
+
+/* ===========================
+   TABLET
+=========================== */
+
+@media (max-width: 992px){
+
+    .reports-container{
+        gap:16px;
+    }
+
+    .reports-column{
+        padding:16px;
+        max-height:500px;
+        overflow-y:auto;
+    }
+
+    .reports-title{
+        font-size:1.15rem;
+    }
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media (max-width: 768px){
+
+    .reports-container{
+        grid-template-columns:1fr;
+    }
+
+    .reports-column{
+        width:100%;
+        padding:14px;
+
+        max-height:400px;
+        overflow-y:auto;
+    }
+
+    .reports-title{
+        font-size:1.1rem;
+        margin-bottom:14px;
+    }
+}
+
+/* ===========================
+   SMALL PHONES
+=========================== */
+
+@media (max-width: 480px){
+
+    .reports-container{
+        margin-top:20px;
+    }
+
+    .reports-column{
+        padding:12px;
+        border-radius:12px;
+
+        max-height:350px;
+    }
+
+    .reports-title{
+        font-size:1rem;
+        margin-bottom:12px;
+    }
+}
