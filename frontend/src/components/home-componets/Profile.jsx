@@ -1,11 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useUser } from "@clerk/react";
 import '../../css/Profile.css'
 
 
 function Profile(){
-
     const { user, isSignedIn } = useUser();
+
+    const [lostReports,setLostReports] = useState([]);
+
+    useEffect(()=>{
+        const fetchLostReports = async()=>{
+            try{
+const res = await axios.get(`http://localhost:6769/api/lost-item/recent/${user.id}`);
+
+            }catch(err){
+                
+            }
+            
+        };
+    })
+
+
+   
 
     if(!isSignedIn){
         return <h1>Please Login</h1>;

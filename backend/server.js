@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 app.get("/test", (req, res) => {
   res.send("test route works");
 });
-app.use('/api/inngest', serve({ client: inngest, functions }))
+
 
 app.use("/api/item", router);
 
