@@ -1,5 +1,29 @@
 import FoundItem from "../models/FoundItem.js";
 
+
+export const getFoundItems = async(req,res)=>{
+    try{
+
+        const {userId} = req.params;
+
+        const foundReports = await FoundItem.find({userId}).sort({createdAt:-1}).limit(5);
+
+        return res.status(200).json({
+            success:true,
+            FoundReports:foundReports,
+        })
+
+    }catch(err){
+      console.log(err);
+       return res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: error.message,
+    });
+    }
+}
+
+
 export const createFoundItem = async (req, res) => {
     try {
         const {
