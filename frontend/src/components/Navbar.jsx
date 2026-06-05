@@ -1,5 +1,6 @@
 import React from "react";
 import "../css/Navbar.css";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {
   Show,
@@ -8,10 +9,11 @@ import {
 } from "@clerk/react";
 
 function Navbar() {
+  const navigate = useNavigate();
   return (
     <>
       <nav className="navbar">
-        <div className="logo">Campus Lost & Found</div>
+        <div className="logo" onClick={() => navigate("/")}>Campus Lost & Found</div>
 
         <div className="search-container">
           <input

@@ -1,8 +1,10 @@
 import React from "react";
 import "../css/Footer.css";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 function Footer() {
+    const navigate = useNavigate();
     return (
         <>
             <footer className="footer">
@@ -10,7 +12,7 @@ function Footer() {
 
                     {/* Brand Section */}
                     <div className="footer-brand">
-                        <div className="footer-logo">
+                        <div className="footer-logo" onClick={() => navigate("/")}>
                             Campus Lost & Found
                         </div>
                         <p className="footer-text">
