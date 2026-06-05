@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import "../../css/Item.css";
 
 function ReportCard({ report }) {
@@ -10,14 +10,13 @@ function ReportCard({ report }) {
         <h3>{report.itemName}</h3>
 
         <span
-    className={`report-status ${
-        report.status === "Found"
-            ? "found"
-            : "lost"
-    }`}
->
-    {report.status}
-</span>
+          className={`report-status ${report.status === "Found"
+              ? "found"
+              : "lost"
+            }`}
+        >
+          {report.status}
+        </span>
 
       </div>
 
@@ -30,7 +29,11 @@ function ReportCard({ report }) {
 
         <div>
           <span className="label">Location</span>
-          <p>{report.lostLocation}</p>
+          <p>
+            {report.status === "Lost"
+              ? report.lostLocation
+              : report.LocationFound}
+          </p>
         </div>
 
         <div>
