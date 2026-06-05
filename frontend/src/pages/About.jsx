@@ -16,8 +16,7 @@ function About() {
           <h1 className="hero-title">Campus Lost & Found - Lofid</h1>
 
           <p className="hero-desc">
-            Making lost belongings easier to find through a secure, organized
-            and community-powered platform.
+            Empowering campus communities to report, discover, and recover lost belongings through a secure and collaborative digital platform.
           </p>
 
           <div className="hero-buttons">
@@ -31,7 +30,7 @@ function About() {
             </a>
 
             <button className="secondary-btn" onClick={() => navigate("/")}>
-                Explore Platform
+              Explore Platform
             </button>
           </div>
         </div>
@@ -41,146 +40,333 @@ function About() {
 
       <section className="stats-section">
         <div className="stat-box">
-          <h2>100%</h2>
-          <p>Student Focused</p>
+          <span className="stat-label">Built For</span>
+          <h2>Campus Communities</h2>
+          <p>
+            Designed specifically to simplify lost and found management
+            across educational institutions.
+          </p>
         </div>
 
         <div className="stat-box">
-          <h2>24/7</h2>
-          <p>Accessible</p>
+          <span className="stat-label">Powered By</span>
+          <h2>Community Trust</h2>
+          <p>
+            Encouraging students to help reconnect people with
+            their valuable belongings.
+          </p>
         </div>
 
         <div className="stat-box">
-          <h2>Secure</h2>
-          <p>Clerk Authentication</p>
+          <span className="stat-label">Security First</span>
+          <h2>Verified Access</h2>
+          <p>
+            Protected authentication and secure user identity
+            management for every report.
+          </p>
         </div>
 
         <div className="stat-box">
-          <h2>MERN</h2>
-          <p>Full Stack Powered</p>
+          <span className="stat-label">Built With</span>
+          <h2>Modern Technology</h2>
+          <p>
+            Engineered using scalable full-stack technologies
+            for reliability and performance.
+          </p>
         </div>
       </section>
 
       {/* HOW IT WORKS */}
 
       <section className="workflow">
-        <h2 className="section-heading">How It Works</h2>
+        <h2 className="section-heading">
+  From Report to Recovery
+</h2>
 
         <div className="workflow-line">
+
           <div className="step">
-            <div className="step-circle">1</div>
-            <h3>Lose Item</h3>
+            <div className="step-circle">01</div>
+
+            <h3>Campus Verification</h3>
+
+            <p>
+              Access is restricted to verified students using
+              their institutional email accounts.
+            </p>
           </div>
 
           <div className="step">
-            <div className="step-circle">2</div>
-            <h3>Submit Report</h3>
+            <div className="step-circle">02</div>
+
+            <h3>Report Listing</h3>
+
+            <p>
+              Publish lost or found item reports with relevant
+              details and supporting information.
+            </p>
           </div>
 
           <div className="step">
-            <div className="step-circle">3</div>
-            <h3>Search Matches</h3>
+            <div className="step-circle">03</div>
+
+            <h3>Member Connection</h3>
+
+            <p>
+              Lost belongings are successfully reunited with
+              their rightful owners.
+            </p>
           </div>
 
           <div className="step">
-            <div className="step-circle">4</div>
-            <h3>Recover Item</h3>
+            <div className="step-circle">04</div>
+
+            <h3>Item Recovery</h3>
+
+            <p>
+              Through secure collaboration and communication,
+              misplaced belongings are successfully reunited
+              with their rightful owners.
+            </p>
           </div>
+
         </div>
       </section>
 
       {/* STORY */}
 
-      <section className="story-section">
-        <div className="story-left">🎒</div>
+      {/* STORY */}
 
-        <div className="story-right">
-          <h2 className="section-heading">Why We Built This</h2>
+<section className="story-section">
 
-          <p>
-            Students lose wallets, ID cards, laptops, water bottles, books and
-            countless other belongings every semester. Most campuses rely on
-            informal WhatsApp groups and word-of-mouth communication. Campus
-            Lost & Found centralizes the entire process, helping students
-            reconnect with their belongings faster and more efficiently.
-          </p>
-        </div>
-      </section>
+  <div className="story-left">
+    ✦
+  </div>
 
-      {/* TECH STACK */}
+  <div className="story-right">
 
-      <section className="tech-section">
-        <h2 className="section-heading">Built Using</h2>
+    <div className="story-tag">
+      OUR MISSION
+    </div>
 
-        <div className="tech-grid">
-          <span>React</span>
-          <span>Node.js</span>
-          <span>Express</span>
-          <span>MongoDB</span>
-          <span>Mongoose</span>
-          <span>Clerk</span>
-        </div>
-      </section>
+    <h2 className="section-heading story-heading">
+      Making Campus Recovery Simple, Trusted, and Accessible
+    </h2>
+<p className="story-highlight">
+   Building a more connected campus experience through a
+  trusted and organized lost-and-found ecosystem.
+</p>
 
-      {/* GITHUB */}
+<p className="story-highlight">
+  The idea behind LOFID emerged from a simple observation:
+  most lost-and-found information is circulated through
+  year-specific or department-specific WhatsApp groups.
+</p>
 
-      <section className="repo-banner">
-        <h2>Open Source Repository</h2>
+<p className="story-highlight">
+   Because these channels rarely reach the entire campus,
+  valuable opportunities for recovery are often missed.
+  LOFID bridges this gap by connecting verified students
+  through a single, campus-wide platform.
+</p>
 
-        <p>Explore source code, architecture, and implementation details.</p>
+  </div>
 
-        <a href="https://github.com/Swapneel14/Lofid" target="_blank" rel="noreferrer">
-          Open GitHub →
-        </a>
-      </section>
+</section>
+{/* TECH STACK */}
 
-      {/* TEAM */}
+<section className="tech-section">
 
-      <section className="team-section">
-        <h2 className="section-heading">Meet The Team</h2>
+  <div className="section-tag-wrapper">
+  <div className="section-tag">
+    TECHNOLOGY
+  </div>
+</div>
 
-        <div className="team-grid">
-          <div className="team-card">
-            <div className="avatar">U</div>
+  <h2 className="section-heading">
+    Powered by Modern Technologies
+  </h2>
 
-            <h3>K Uday Kumar</h3>
+  <p className="tech-intro">
+    Carefully selected technologies work together to provide
+    secure authentication, real-time communication, and a
+    reliable experience across campus communities.
+  </p>
 
-            <p>2024CSB019</p>
+  <div className="tech-grid">
 
-            <a href="https://github.com/Udayx404" target="_blank" rel="noreferrer">GitHub</a>
-          </div>
+    <div className="tech-pill">
+      <h3>React</h3>
+      <p>Frontend Experience</p>
+    </div>
 
-          <div className="team-card">
-            <div className="avatar">S</div>
+    <div className="tech-pill">
+      <h3>Node.js</h3>
+      <p>Backend Runtime</p>
+    </div>
 
-            <h3>Swapneel Sarkar</h3>
+    <div className="tech-pill">
+      <h3>Express.js</h3>
+      <p>API Architecture</p>
+    </div>
 
-            <p>2024CSB021</p>
+    <div className="tech-pill">
+      <h3>MongoDB</h3>
+      <p>Data Storage</p>
+    </div>
 
-            <a href="https://github.com/Swapneel14" target="_blank" rel="noreferrer">GitHub</a>
-          </div>
+    <div className="tech-pill">
+      <h3>Clerk</h3>
+      <p>Student Authentication</p>
+    </div>
 
-          <div className="team-card">
-            <div className="avatar">S</div>
+    <div className="tech-pill">
+      <h3>Socket.IO</h3>
+      <p>Real-Time Messaging</p>
+    </div>
 
-            <h3>Subham Das</h3>
+    <div className="tech-pill">
+      <h3>Inngest</h3>
+      <p>Background Workflows</p>
+    </div>
 
-            <p>2024CSB023</p>
+  </div>
 
-            <a href="https://github.com/subhamgit08" target="_blank" rel="noreferrer">GitHub</a>
-          </div>
+</section>
+{/* TEAM */}
 
-          <div className="team-card">
-            <div className="avatar">N</div>
+{/* TEAM */}
 
-            <h3>Nirupam Das</h3>
+<section className="team-section">
 
-            <p>2024CSB108</p>
+  <div className="section-tag-wrapper">
+    <div className="section-tag">
+      CONTRIBUTORS
+    </div>
+  </div>
 
-            <a href="https://github.com/NDDAS05" target="_blank" rel="noreferrer">GitHub</a>
-          </div>
-        </div>
-      </section>
+  <h2 className="section-heading">
+    The People Behind LOFID
+  </h2>
+
+  <p className="team-intro">
+    A shared vision, countless iterations, and a commitment to solving
+    everyday campus challenges through technology.
+  </p>
+<div className="contributors-row">
+
+  <div className="contributor-card">
+    <span className="accent-line"></span>
+
+    <h3>K Uday Kumar</h3>
+
+    <p>Batch of 2028</p>
+
+    <a
+      href="https://github.com/Udayx404"
+      target="_blank"
+      rel="noreferrer"
+    >
+      GitHub ↗
+    </a>
+  </div>
+
+  <div className="contributor-card">
+    <span className="accent-line"></span>
+
+    <h3>Swapneel Sarkar</h3>
+
+    <p>Batch of 2028</p>
+
+    <a
+      href="https://github.com/Swapneel14"
+      target="_blank"
+      rel="noreferrer"
+    >
+      GitHub ↗
+    </a>
+  </div>
+
+  <div className="contributor-card">
+    <span className="accent-line"></span>
+
+    <h3>Subham Das</h3>
+
+    <p>Batch of 2028</p>
+
+    <a
+      href="https://github.com/subhamgit08"
+      target="_blank"
+      rel="noreferrer"
+    >
+      GitHub ↗
+    </a>
+  </div>
+
+  <div className="contributor-card">
+    <span className="accent-line"></span>
+
+    <h3>Nirupam Das</h3>
+
+    <p>Batch of 2028</p>
+
+    <a
+      href="https://github.com/NDDAS05"
+      target="_blank"
+      rel="noreferrer"
+    >
+      GitHub ↗
+    </a>
+  </div>
+
+</div>
+
+</section>
+
+{/* OPEN SOURCE */}
+
+<section className="opensource-section">
+
+  <div className="opensource-container">
+
+    <div className="section-tag-wrapper">
+      <div className="section-tag">
+        OPEN SOURCE
+      </div>
+    </div>
+
+    <h2 className="opensource-heading">
+      Built in Public, Open for Innovation
+    </h2>
+
+    <p className="opensource-text">
+      LOFID is developed as an open-source project. We believe in
+      transparency, collaboration, and continuous improvement through
+      community contributions.
+    </p>
+
+    <p className="opensource-text secondary">
+      Explore the architecture, review the implementation, discover
+      how different technologies come together, or contribute ideas
+      that help shape the future of the platform.
+    </p>
+
+    <div className="opensource-actions">
+
+      <a
+        href="https://github.com/Swapneel14/Lofid"
+        target="_blank"
+        rel="noreferrer"
+        className="repo-btn"
+      >
+        View Repository ↗
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
     </div>
   );
 }
