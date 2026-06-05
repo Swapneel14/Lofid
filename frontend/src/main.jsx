@@ -11,6 +11,7 @@ import Register from './pages/Register.jsx'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
 import Login from './pages/Login.jsx'
+import NotFound from './pages/PageNotFound.jsx'
 import { ClerkProvider } from '@clerk/react'
 import AuthGuard from './components/AuthGuard.jsx'
 

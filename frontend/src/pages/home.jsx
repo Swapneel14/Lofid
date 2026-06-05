@@ -8,6 +8,7 @@ import { Routes, Route } from "react-router-dom";
 import Messages from "../components/home-componets/Messages";
 import LostForm from "../components/home-componets/LostForm";
 import FoundForm from "../components/home-componets/FoundForm";
+import NotFound from "./PageNotFound";
 
 function Home() {
     const [showSidebar, setShowSidebar] = useState(false);
@@ -25,6 +26,7 @@ function Home() {
             <div className="row g-0">
 
                 <div className={`col-lg-2 sidebar-wrapper ${showSidebar ? "show" : ""
+
                     }`}>
 
                     <SideBar />
@@ -59,6 +61,11 @@ function Home() {
                         <Route
                             path="report-found"
                             element={<FoundForm />}
+                        />
+
+                        <Route
+                            path="*"
+                            element={<NotFound />}
                         />
 
 
