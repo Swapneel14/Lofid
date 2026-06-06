@@ -15,7 +15,7 @@ function SideBar(){
             </NavLink>
 
            
-            <NavLink to="/lost">
+            <NavLink to="/all-lost-items">
                 Lost Items
             </NavLink>
 
