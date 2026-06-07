@@ -32,11 +32,27 @@ const FoundItemSchema = new mongoose.Schema(
             ],
         },
 
+        // images: {
+        //     type: [String],
+        //     validate: {
+        //         validator: function (arr) {
+        //             return arr.length >= 3;
+        //         },
+        //         message: "At least 3 images are required",
+        //     },
+        //     required: true,
+        // },
+
         images: {
-            type: [String],
+            type: [
+                {
+                    url: String,
+                    public_id: String
+                }
+            ],
             validate: {
                 validator: function (arr) {
-                    return arr.length >= 3;
+                    return arr && arr.length >= 3;
                 },
                 message: "At least 3 images are required",
             },

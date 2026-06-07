@@ -47,9 +47,6 @@ const FoundItems = () => {
     <main className="min-h-screen bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
       <section className="mx-auto max-w-7xl">
         <div className="mb-8">
-          <p className="text-sm font-semibold uppercase tracking-wide text-emerald-600">
-            Lost & Found
-          </p>
           <h1 className="mt-2 text-3xl font-bold text-slate-950 sm:text-4xl">
             Found Items
           </h1>
