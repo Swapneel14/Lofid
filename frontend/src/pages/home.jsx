@@ -9,29 +9,71 @@ import Messages from "../components/home-componets/Messages";
 import LostForm from "../components/home-componets/LostForm";
 import FoundForm from "../components/home-componets/FoundForm";
 import NotFound from "./PageNotFound";
-import AllLostItems from "./AllLostItems";
+import FoundItems from "../components/home-componets/FoundItems";
 
 function Home() {
-  const [showSidebar, setShowSidebar] = useState(false);
+    const [showSidebar, setShowSidebar] = useState(false);
 
-  return (
-    <div className="container-fluid">
-      <button
-        className="mobile-menu-btn"
-        onClick={() => setShowSidebar(!showSidebar)}
-      >
-        ☰
-      </button>
+    return (
 
-      <div className="row g-0">
-        <div
-          className={`col-lg-2 sidebar-wrapper ${showSidebar ? "show" : ""}`}
-        >
-          <SideBar />
-        </div>
-        <div className="col-lg-10 col-md-9">
-          <Routes>
-            <Route index element={<AllPosts />} />
+        <div className="container-fluid">
+            <button
+                className="mobile-menu-btn"
+                onClick={() => setShowSidebar(!showSidebar)}
+            >
+                ☰
+            </button>
+
+            <div className="row g-0">
+
+                <div className={`col-lg-2 sidebar-wrapper ${showSidebar ? "show" : ""
+
+                    }`}>
+
+                    <SideBar />
+
+                </div>
+                <div className="col-lg-10 col-md-9">
+
+                    <Routes>
+
+                        <Route
+                            index
+                            element={<AllPosts />}
+                        />
+
+
+                        <Route
+                            path="profile"
+                            element={<Profile />}
+                        />
+
+
+                        <Route
+                            path="foundItems"
+                            element={<FoundItems />}
+                        />
+
+                       
+
+                        <Route
+                            path="messages"
+                            element={<Messages />}
+                        />
+
+                        <Route
+                            path="report-lost"
+                            element={<LostForm />}
+                        />
+                        <Route
+                            path="report-found"
+                            element={<FoundForm />}
+                        />
+
+                        <Route
+                            path="*"
+                            element={<NotFound />}
+                        />
 
             <Route path="all-lost-items" element={<AllLostItems />} />
 

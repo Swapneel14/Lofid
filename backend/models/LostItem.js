@@ -32,11 +32,20 @@ const lostItemSchema = new mongoose.Schema(
       ],
     },
 
-    images: [
-      {
-        type: String, // image URLs
-      },
-    ],
+    // images: [
+    //   {
+    //     type: String, // image URLs
+    //   },
+    // ],
+
+    images: {
+      type: [
+        {
+          url: String,
+          public_id: String
+        }
+      ],
+    },
 
     description: {
       type: String,
@@ -59,12 +68,6 @@ const lostItemSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-
-    // status: {
-    //   type: String,
-    //   enum: ["Lost", "Found", "Claimed"],
-    //   default: "Lost",
-    // },
 
     status: {
       type: String,

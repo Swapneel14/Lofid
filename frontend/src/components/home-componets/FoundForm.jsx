@@ -15,9 +15,6 @@ function FoundForm() {
     LocationFound: "",
   });
 
-  // const [selectedFiles, setSelectedFiles] = useState([]);
-
-
   const today = new Date().toISOString().split("T")[0]; // Today's date as YYYY-MM-DD
 
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -25,6 +22,10 @@ function FoundForm() {
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
 
+    if (selectedFiles.length + files.length > 5) {
+        alert("You can only upload a maximum of 5 images.");
+        return;
+    }
     setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
   };
 
@@ -35,17 +36,6 @@ function FoundForm() {
 
     );
   };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   if (selectedFiles.length < 3) {
-  //     alert("Please upload at least 3 images.");
-  //     return;
-  //   }
-
-  //   alert("Form submitted successfully!");
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,39 +50,45 @@ function FoundForm() {
       return;
     }
 
-    console.log({
-      userId: user?.id,
-      ...formData,
+    // 1. Create FormData instance
+    const data = new FormData();
+
+    // 2. Append text fields
+    data.append("userId", user.id);
+    data.append("itemName", formData.itemName);
+    data.append("category", formData.category);
+    data.append("description", formData.description);
+    data.append("LocationFound", formData.LocationFound);
+
+    // 3. Append images (multiple files with the same key)
+    selectedFiles.forEach((file) => {
+      data.append("images", file);
     });
 
     try {
+      // 4. Send request (Axios handles the headers automatically)
       const response = await axios.post(
         "http://localhost:6769/api/item/create-found-item",
+        data,
         {
-          userId: user?.id,
-          itemName: formData.itemName,
-          category: formData.category,
-          description: formData.description,
-          LocationFound: formData.LocationFound,
-          images: selectedFiles.map((file) => file.name), // replace later with uploaded image URLs
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
 
       if (response.data.success) {
         alert("Found item reported successfully!");
-
         setFormData({
           itemName: "",
           category: "",
           description: "",
           LocationFound: "",
         });
-
         setSelectedFiles([]);
       }
     } catch (error) {
-      console.log(error);
-
+      console.error(error);
       alert(error.response?.data?.message || "Failed to submit report");
     }
   };
