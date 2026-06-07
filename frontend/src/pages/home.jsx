@@ -75,16 +75,21 @@ function Home() {
                             element={<NotFound />}
                         />
 
+            <Route path="all-lost-items" element={<AllLostItems />} />
 
-                    </Routes>
+            <Route path="profile" element={<Profile />} />
 
-                </div>
+            <Route path="messages" element={<Messages />} />
 
-            </div>
+            <Route path="report-lost" element={<LostForm />} />
+            <Route path="report-found" element={<FoundForm />} />
 
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </div>
-
-    );
+      </div>
+    </div>
+  );
 }
 
 export default Home;
