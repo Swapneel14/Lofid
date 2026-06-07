@@ -9,6 +9,7 @@ import Messages from "../components/home-componets/Messages";
 import LostForm from "../components/home-componets/LostForm";
 import FoundForm from "../components/home-componets/FoundForm";
 import NotFound from "./PageNotFound";
+import FoundItems from "../components/home-componets/FoundItems";
 
 function Home() {
     const [showSidebar, setShowSidebar] = useState(false);
@@ -45,6 +46,12 @@ function Home() {
                         <Route
                             path="profile"
                             element={<Profile />}
+                        />
+
+
+                        <Route
+                            path="foundItems"
+                            element={<FoundItems />}
                         />
 
                        

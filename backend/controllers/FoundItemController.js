@@ -23,6 +23,24 @@ export const getFoundItems = async(req,res)=>{
     }
 }
 
+export const getAllFoundItems = async (req, res) => {
+    // console.log("running getAllFoundItem api");
+  try {
+    const foundItems = await FoundItem.find().sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      foundItems,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch found items",
+      error: error.message,
+    });
+  }
+}
+
 
 export const createFoundItem = async (req, res) => {
     try {
@@ -67,9 +85,9 @@ export const createFoundItem = async (req, res) => {
             LocationFound,
         });
 
-        // const populatedItem = await LostItem.findById(
-        //     lostItem._id
-        // ).populate("userId");
+        const populatedItem = await FoundItem.findById(
+            foundItem._id
+        ).populate("userId");
 
         // console.log(
         //     "User Name:",
