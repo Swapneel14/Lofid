@@ -10,6 +10,7 @@ import LostForm from "../components/home-componets/LostForm";
 import FoundForm from "../components/home-componets/FoundForm";
 import NotFound from "./PageNotFound";
 import FoundItems from "../components/home-componets/FoundItems";
+import AllLostItems from "./AllLostItems";
 
 function Home() {
     const [showSidebar, setShowSidebar] = useState(false);
@@ -36,60 +37,21 @@ function Home() {
                 <div className="col-lg-10 col-md-9">
 
                     <Routes>
+                        <Route index element={<AllPosts />} />
 
-                        <Route
-                            index
-                            element={<AllPosts />}
-                        />
+                        <Route path="profile" element={<Profile />} />
+                        <Route path="foundItems" element={<FoundItems />} />
+                        <Route path="all-lost-items" element={<AllLostItems />} />
+                        <Route path="messages" element={<Messages />} />
+                        <Route path="report-lost" element={<LostForm />} />
+                        <Route path="report-found" element={<FoundForm />} />
 
-
-                        <Route
-                            path="profile"
-                            element={<Profile />}
-                        />
-
-
-                        <Route
-                            path="foundItems"
-                            element={<FoundItems />}
-                        />
-
-                       
-
-                        <Route
-                            path="messages"
-                            element={<Messages />}
-                        />
-
-                        <Route
-                            path="report-lost"
-                            element={<LostForm />}
-                        />
-                        <Route
-                            path="report-found"
-                            element={<FoundForm />}
-                        />
-
-                        <Route
-                            path="*"
-                            element={<NotFound />}
-                        />
-
-            <Route path="all-lost-items" element={<AllLostItems />} />
-
-            <Route path="profile" element={<Profile />} />
-
-            <Route path="messages" element={<Messages />} />
-
-            <Route path="report-lost" element={<LostForm />} />
-            <Route path="report-found" element={<FoundForm />} />
-
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default Home;

@@ -36,7 +36,7 @@ function AllLostItems() {
     <div className="lost-items-page">
 
       <div className="lost-items-header">
-        <h1>Lost Items</h1>
+        <h1>Lost & Missing Reports</h1>
 
         <p>
           Browse all reported lost items across campus
@@ -62,41 +62,67 @@ function AllLostItems() {
             </div>
 
             <div className="lost-item-content">
+              <div className="item-header">
+                <h3>{item.itemName}</h3>
 
-              <h3>{item.itemName}</h3>
+                <span className="category-badge">
+                  {item.category}
+                </span>
+              </div>
+              <div className="item-details">
 
-              <span className="category-badge">
-                {item.category}
-              </span>
+                <div className="detail-row">
+                  <span className="detail-label">Location</span>
+                  <span className="detail-value">{item.lostLocation}</span>
+                </div>
 
-              <p>
-                Location - {item.lostLocation}
-              </p>
+                <div className="detail-row">
+                  <span className="detail-label">Date</span>
+                  <span className="detail-value">
+                    {new Date(item.lostDate).toLocaleDateString()}
+                  </span>
+                </div>
 
-              <p>
-                Date - {new Date(item.lostDate)
-                  .toLocaleDateString()}
-              </p>
+                <div className="detail-row">
+                  <span className="detail-label">Time</span>
+                  <span className="detail-value">{item.lostTime}</span>
+                </div>
 
-              <p>
-                Time - {item.lostTime}
-              </p>
+              </div>
 
-              <p className="reported-by">
-                Reported by -
-                {" "}
-                {item.userId?.name}
-              </p>
+              <div className="reporter-section">
+                <span className="reporter-label">Reported by</span>
+                <span className="reporter-name">
+                  {item.userId?.name}
+                </span>
+              </div>
+              {user?.id === item.userId?._id ? (
 
-              {user?.id === item.userId?._id && (
+                <div className="owner-actions">
+
+                  <button
+                    className="edit-btn"
+                    onClick={() => handleEdit(item._id)}
+                  >
+                    ✏️ Edit Report
+                  </button>
+
+                  <button
+                    className="mark-found-btn"
+                    onClick={() => handleMarkFound(item._id)}
+                  >
+                    ✓ Mark as Found
+                  </button>
+
+                </div>
+
+              ) : (
 
                 <button
-                  className="edit-btn"
-                  onClick={() =>
-                    handleEdit(item._id)
-                  }
+                  className="found-btn"
+                  onClick={() => handleFound(item._id)}
                 >
-                  ✎𓂃 Edit Report
+                  🔍 I Found This Item
                 </button>
 
               )}

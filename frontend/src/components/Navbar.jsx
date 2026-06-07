@@ -13,8 +13,10 @@ function Navbar() {
   return (
     <>
       <nav className="navbar">
-        <div className="logo" onClick={() => navigate("/")}>Campus Lost & Found</div>
-
+        <div className="logo" onClick={() => navigate("/")}>
+  <span className="logo-desktop">Campus Lost & Found</span>
+  <span className="logo-mobile">LoFid</span>
+</div>
         <div className="search-container">
           <input
             type="text"
