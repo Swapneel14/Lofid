@@ -46,6 +46,14 @@
 
 /* ================= LOGO ================= */
 
+.logo-mobile{
+    display:none;
+}
+
+.logo-desktop{
+    display:inline;
+}
+
 .logo{
 
     font-size:1.05rem;
@@ -347,8 +355,27 @@
 
 
 /* ================= RESPONSIVE ================= */
+@media (max-width:768px){
+    
+
+    .logo-desktop{
+        display:none;
+    }
+
+    .logo-mobile{
+        display:inline;
+
+        font-size:1rem;
+        font-weight:800;
+
+        letter-spacing:-0.5px;
+    }
+}
+
 
 @media(max-width:992px){
+
+    
 
     .navbar{
 
