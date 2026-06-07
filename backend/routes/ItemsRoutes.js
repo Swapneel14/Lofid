@@ -1,12 +1,13 @@
 import express from "express";
-import { createLostItem, getRecentLost } from "../controllers/LostItemController.js";
+import { createLostItem, getRecentLost, getAllLostItems } from "../controllers/LostItemController.js";
 import { createFoundItem, getFoundItems } from "../controllers/FoundItemController.js";
 
 const router = express.Router();
 
 //Lost-Item Routes
 router.post("/create-lost-item", createLostItem);
-router.get('/get-recent-lost/:userId',getRecentLost);
+router.get('/get-recent-lost/:userId', getRecentLost);
+router.get('/all-lost-items', getAllLostItems);
 
 //Found-Item Routes
 router.post("/create-found-item", createFoundItem);

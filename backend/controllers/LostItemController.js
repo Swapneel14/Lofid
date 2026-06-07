@@ -1,7 +1,5 @@
 import LostItem from "../models/LostItem.js";
 
-
-
 export const getRecentLost = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -77,6 +75,27 @@ export const createLostItem = async (req, res) => {
       success: true,
       message: "Lost item reported successfully",
       lostItem,
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: error.message,
+    });
+  }
+};
+
+export const getAllLostItems = async (req, res) => {
+  try {
+    const lostItems = await LostItem.find()
+      .populate("userId", "name email image")
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      lostItems,
     });
   } catch (error) {
     console.log(error);
