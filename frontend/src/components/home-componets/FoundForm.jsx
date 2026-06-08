@@ -4,8 +4,6 @@ import { useUser } from "@clerk/react";
 import { useState } from "react";
 
 function FoundForm() {
-
-
   const { user } = useUser();
 
   const [formData, setFormData] = useState({
@@ -18,22 +16,21 @@ function FoundForm() {
   const today = new Date().toISOString().split("T")[0]; // Today's date as YYYY-MM-DD
 
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
 
     if (selectedFiles.length + files.length > 5) {
-        alert("You can only upload a maximum of 5 images.");
-        return;
+      alert("You can only upload a maximum of 5 images.");
+      return;
     }
     setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
   };
 
   const removeFile = (indexToRemove) => {
-
     setSelectedFiles((prevFiles) =>
-      prevFiles.filter((_, index) => index !== indexToRemove),
-
+      prevFiles.filter((_, index) => index !== indexToRemove)
     );
   };
 
@@ -50,23 +47,20 @@ function FoundForm() {
       return;
     }
 
-    // 1. Create FormData instance
-    const data = new FormData();
+    setIsSubmitting(true);
 
-    // 2. Append text fields
+    const data = new FormData();
     data.append("userId", user.id);
     data.append("itemName", formData.itemName);
     data.append("category", formData.category);
     data.append("description", formData.description);
     data.append("LocationFound", formData.LocationFound);
 
-    // 3. Append images (multiple files with the same key)
     selectedFiles.forEach((file) => {
       data.append("images", file);
     });
 
     try {
-      // 4. Send request (Axios handles the headers automatically)
       const response = await axios.post(
         "http://localhost:6769/api/item/create-found-item",
         data,
@@ -90,6 +84,8 @@ function FoundForm() {
     } catch (error) {
       console.error(error);
       alert(error.response?.data?.message || "Failed to submit report");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -172,7 +168,11 @@ function FoundForm() {
                 readOnly
               />
 
-              <label className="file-select-btn">
+              {/* Added blocked cursor style here */}
+              <label 
+                className={`file-select-btn ${isSubmitting ? "disabled" : ""}`}
+                style={{ cursor: isSubmitting ? "not-allowed" : "pointer" }}
+              >
                 Select Files
                 <input
                   type="file"
@@ -180,6 +180,7 @@ function FoundForm() {
                   multiple
                   hidden
                   onChange={handleFileChange}
+                  disabled={isSubmitting}
                 />
               </label>
             </div>
@@ -189,10 +190,13 @@ function FoundForm() {
                   <div key={index} className="selected-file-item">
                     <span>{file.name}</span>
 
+                    {/* Added blocked cursor style here */}
                     <button
                       type="button"
                       className="remove-file-btn"
                       onClick={() => removeFile(index)}
+                      disabled={isSubmitting}
+                      style={{ cursor: isSubmitting ? "not-allowed" : "pointer" }}
                     >
                       ✕
                     </button>
@@ -219,14 +223,6 @@ function FoundForm() {
             />
           </div>
 
-
-          {/* Marking this as unnecessary */}
-          {/* Time When Found */}
-          {/* <div className="form-group">
-            <label>Time When Found <span className="required">*</span></label>
-            <input type="time" required />
-          </div> */}
-
           {/* Location */}
           <div className="form-group">
             <label>Location Found <span className="required">*</span></label>
@@ -244,8 +240,45 @@ function FoundForm() {
             />
           </div>
 
-          <button type="submit" className="submit-btn">
-            Submit Report
+          {/* Added blocked cursor style here */}
+          <button 
+            type="submit" 
+            className="submit-btn" 
+            disabled={isSubmitting}
+            style={{ 
+              display: "flex", 
+              justifyContent: "center", 
+              alignItems: "center", 
+              gap: "8px",
+              cursor: isSubmitting ? "not-allowed" : "pointer" 
+            }}
+          >
+            {isSubmitting ? (
+              <>
+                <svg 
+                  width="20" 
+                  height="20" 
+                  viewBox="0 0 24 24" 
+                  xmlns="http://www.w3.org/2000/svg"
+                  style={{ animation: "spin 1s linear infinite" }}
+                >
+                  <style>
+                    {`@keyframes spin { 100% { transform: rotate(360deg); } }`}
+                  </style>
+                  <path 
+                    d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    fill="none" 
+                  />
+                </svg>
+                Submitting...
+              </>
+            ) : (
+              "Submit Report"
+            )}
           </button>
         </form>
       </div>

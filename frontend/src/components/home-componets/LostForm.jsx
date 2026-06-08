@@ -1,3 +1,308 @@
+// import "../../css/LostForm.css";
+// import axios from "axios";
+// import { useUser } from "@clerk/react";
+// import { useState } from "react";
+
+// function LostForm() {
+//   const { user } = useUser();
+
+//   const [formData, setFormData] = useState({
+//     itemName: "",
+//     category: "",
+//     description: "",
+//     lostDate: "",
+//     lostTime: "",
+//     lostLocation: "",
+//   });
+
+//   const today = new Date().toISOString().split("T")[0];
+
+//   const [selectedFiles, setSelectedFiles] = useState([]);
+
+//   const handleFileChange = (e) => {
+//     const files = Array.from(e.target.files);
+
+//     setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
+//   };
+
+//   const removeFile = (indexToRemove) => {
+//     setSelectedFiles((prevFiles) =>
+//       prevFiles.filter((_, index) => index !== indexToRemove),
+//     );
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     if (!user) {
+//       alert("Please login first");
+//       return;
+//     }
+
+//     console.log({
+//       userId: user?.id,
+//       ...formData,
+//     });
+
+//     try {
+//       const response = await axios.post(
+//         "http://localhost:6769/api/item/create-lost-item",
+//         {
+//           userId: user?.id, // replace with logged-in user's id
+//           itemName: formData.itemName,
+//           category: formData.category,
+//           description: formData.description,
+//           lostDate: formData.lostDate,
+//           lostTime: formData.lostTime,
+//           lostLocation: formData.lostLocation,
+//           images: [],
+//         },
+//       );
+
+//       if (response.data.success) {
+//         alert("Lost item reported successfully!");
+
+//         setFormData({
+//           itemName: "",
+//           category: "",
+//           description: "",
+//           lostDate: "",
+//           lostTime: "",
+//           lostLocation: "",
+//         });
+
+//         setSelectedFiles([]);
+//       }
+//     } catch (error) {
+//       console.log(error);
+
+//       alert(error.response?.data?.message || "Failed to submit report");
+//     }
+//   };
+
+//   return (
+//     <div className="lost-form-wrapper">
+//       <div className="form-card">
+//         <h1 className="form-header">Lost Something?</h1>
+
+//         <form onSubmit={handleSubmit}>
+//           {/* Item Name */}
+
+//           <div className="form-group">
+//             <label>
+//               Item Name <span className="required">*</span>
+//             </label>
+
+//             <input
+//               type="text"
+//               placeholder="e.g. Black Wallet"
+//               value={formData.itemName}
+//               onChange={(e) =>
+//                 setFormData({
+//                   ...formData,
+//                   itemName: e.target.value,
+//                 })
+//               }
+//               required
+//             />
+//           </div>
+
+//           {/* Category */}
+
+//           <div className="form-group">
+//             <label>
+//               Item Category <span className="required">*</span>
+//             </label>
+
+//             <select
+//               value={formData.category}
+//               onChange={(e) =>
+//                 setFormData({
+//                   ...formData,
+//                   category: e.target.value,
+//                 })
+//               }
+//               required
+//             >
+//               <option value="">Select a category</option>
+
+//               <option>Electronics</option>
+
+//               <option>Clothing & Accessories</option>
+
+//               <option>Books & Stationery</option>
+
+//               <option>ID & Documents</option>
+
+//               <option>Keys</option>
+
+//               <option>Bags & Backpacks</option>
+
+//               <option>Water Bottles & Tiffin</option>
+
+//               <option>Jewellery & Watches</option>
+
+//               <option>Sports Equipment</option>
+
+//               <option>Wallet & Purse</option>
+
+//               <option>Other</option>
+//             </select>
+//           </div>
+
+//           {/* Images Optional */}
+
+//           <div className="form-group">
+//             <label>
+//               Upload Reference Images{" "}
+//               <span className="optional">(Optional)</span>
+//             </label>
+
+//             <p className="image-instructions">
+//               📸 Upload photos of your lost item if available. Clear images help
+//               others identify and return your item faster.
+//             </p>
+
+//             <div className="file-input-row">
+//               <input
+//                 type="text"
+//                 className="file-name-display"
+//                 value={
+//                   selectedFiles.length === 0
+//                     ? "No images selected"
+//                     : `${selectedFiles.length} image(s) selected`
+//                 }
+//                 readOnly
+//               />
+
+//               <label className="file-select-btn">
+//                 Select Files
+//                 <input
+//                   type="file"
+//                   accept="image/*"
+//                   multiple
+//                   hidden
+//                   onChange={handleFileChange}
+//                 />
+//               </label>
+//             </div>
+
+//             {selectedFiles.length > 0 && (
+//               <div className="selected-files-box">
+//                 {selectedFiles.map((file, index) => (
+//                   <div key={index} className="selected-file-item">
+//                     <span>{file.name}</span>
+
+//                     <button
+//                       type="button"
+//                       className="remove-file-btn"
+//                       onClick={() => removeFile(index)}
+//                     >
+//                       ✕
+//                     </button>
+//                   </div>
+//                 ))}
+//               </div>
+//             )}
+//           </div>
+
+//           {/* Description */}
+
+//           <div className="form-group">
+//             <label>
+//               Item Description <span className="required">*</span>
+//             </label>
+
+//             <textarea
+//               rows="4"
+//               placeholder="Describe the item..."
+//               value={formData.description}
+//               onChange={(e) =>
+//                 setFormData({
+//                   ...formData,
+//                   description: e.target.value,
+//                 })
+//               }
+//               required
+//             />
+//           </div>
+
+//           {/* Date Lost */}
+
+//           <div className="form-group">
+//             <label>
+//               Date Lost <span className="required">*</span>
+//             </label>
+
+//             <input
+//               type="date"
+//               max={today}
+//               value={formData.lostDate}
+//               onChange={(e) =>
+//                 setFormData({
+//                   ...formData,
+//                   lostDate: e.target.value,
+//                 })
+//               }
+//               required
+//             />
+//           </div>
+
+//           {/* Time Lost */}
+
+//           <div className="form-group">
+//             <label>
+//               Time Lost <span className="required">*</span>
+//             </label>
+
+//             <input
+//               type="time"
+//               value={formData.lostTime}
+//               onChange={(e) =>
+//                 setFormData({
+//                   ...formData,
+//                   lostTime: e.target.value,
+//                 })
+//               }
+//               required
+//             />
+//           </div>
+
+//           {/* Location */}
+
+//           <div className="form-group">
+//             <label>
+//               Location Lost <span className="required">*</span>
+//             </label>
+
+//             <input
+//               type="text"
+//               placeholder="e.g. Library"
+//               value={formData.lostLocation}
+//               onChange={(e) =>
+//                 setFormData({
+//                   ...formData,
+//                   lostLocation: e.target.value,
+//                 })
+//               }
+//               required
+//             />
+//           </div>
+
+//           {/* Submit */}
+
+//           <button type="submit" className="submit-btn">
+//             Submit Report
+//           </button>
+//         </form>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default LostForm;
+
+
 import "../../css/LostForm.css";
 import axios from "axios";
 import { useUser } from "@clerk/react";
@@ -18,10 +323,10 @@ function LostForm() {
   const today = new Date().toISOString().split("T")[0];
 
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
-
     setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
   };
 
@@ -39,24 +344,31 @@ function LostForm() {
       return;
     }
 
-    console.log({
-      userId: user?.id,
-      ...formData,
+    setIsSubmitting(true);
+
+    // Converted to FormData so the selected images actually upload to the backend
+    const data = new FormData();
+    data.append("userId", user.id);
+    data.append("itemName", formData.itemName);
+    data.append("category", formData.category);
+    data.append("description", formData.description);
+    data.append("lostDate", formData.lostDate);
+    data.append("lostTime", formData.lostTime);
+    data.append("lostLocation", formData.lostLocation);
+
+    selectedFiles.forEach((file) => {
+      data.append("images", file);
     });
 
     try {
       const response = await axios.post(
         "http://localhost:6769/api/item/create-lost-item",
+        data,
         {
-          userId: user?.id, // replace with logged-in user's id
-          itemName: formData.itemName,
-          category: formData.category,
-          description: formData.description,
-          lostDate: formData.lostDate,
-          lostTime: formData.lostTime,
-          lostLocation: formData.lostLocation,
-          images: [],
-        },
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
 
       if (response.data.success) {
@@ -74,9 +386,10 @@ function LostForm() {
         setSelectedFiles([]);
       }
     } catch (error) {
-      console.log(error);
-
+      console.error(error);
       alert(error.response?.data?.message || "Failed to submit report");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -87,7 +400,6 @@ function LostForm() {
 
         <form onSubmit={handleSubmit}>
           {/* Item Name */}
-
           <div className="form-group">
             <label>
               Item Name <span className="required">*</span>
@@ -108,7 +420,6 @@ function LostForm() {
           </div>
 
           {/* Category */}
-
           <div className="form-group">
             <label>
               Item Category <span className="required">*</span>
@@ -125,33 +436,21 @@ function LostForm() {
               required
             >
               <option value="">Select a category</option>
-
               <option>Electronics</option>
-
               <option>Clothing & Accessories</option>
-
               <option>Books & Stationery</option>
-
               <option>ID & Documents</option>
-
               <option>Keys</option>
-
               <option>Bags & Backpacks</option>
-
               <option>Water Bottles & Tiffin</option>
-
               <option>Jewellery & Watches</option>
-
               <option>Sports Equipment</option>
-
               <option>Wallet & Purse</option>
-
               <option>Other</option>
             </select>
           </div>
 
           {/* Images Optional */}
-
           <div className="form-group">
             <label>
               Upload Reference Images{" "}
@@ -175,7 +474,10 @@ function LostForm() {
                 readOnly
               />
 
-              <label className="file-select-btn">
+              <label 
+                className={`file-select-btn ${isSubmitting ? "disabled" : ""}`}
+                style={{ cursor: isSubmitting ? "not-allowed" : "pointer" }}
+              >
                 Select Files
                 <input
                   type="file"
@@ -183,6 +485,7 @@ function LostForm() {
                   multiple
                   hidden
                   onChange={handleFileChange}
+                  disabled={isSubmitting}
                 />
               </label>
             </div>
@@ -197,6 +500,8 @@ function LostForm() {
                       type="button"
                       className="remove-file-btn"
                       onClick={() => removeFile(index)}
+                      disabled={isSubmitting}
+                      style={{ cursor: isSubmitting ? "not-allowed" : "pointer" }}
                     >
                       ✕
                     </button>
@@ -207,7 +512,6 @@ function LostForm() {
           </div>
 
           {/* Description */}
-
           <div className="form-group">
             <label>
               Item Description <span className="required">*</span>
@@ -228,7 +532,6 @@ function LostForm() {
           </div>
 
           {/* Date Lost */}
-
           <div className="form-group">
             <label>
               Date Lost <span className="required">*</span>
@@ -249,7 +552,6 @@ function LostForm() {
           </div>
 
           {/* Time Lost */}
-
           <div className="form-group">
             <label>
               Time Lost <span className="required">*</span>
@@ -269,7 +571,6 @@ function LostForm() {
           </div>
 
           {/* Location */}
-
           <div className="form-group">
             <label>
               Location Lost <span className="required">*</span>
@@ -290,9 +591,44 @@ function LostForm() {
           </div>
 
           {/* Submit */}
-
-          <button type="submit" className="submit-btn">
-            Submit Report
+          <button 
+            type="submit" 
+            className="submit-btn"
+            disabled={isSubmitting}
+            style={{ 
+              display: "flex", 
+              justifyContent: "center", 
+              alignItems: "center", 
+              gap: "8px",
+              cursor: isSubmitting ? "not-allowed" : "pointer" 
+            }}
+          >
+            {isSubmitting ? (
+              <>
+                <svg 
+                  width="20" 
+                  height="20" 
+                  viewBox="0 0 24 24" 
+                  xmlns="http://www.w3.org/2000/svg"
+                  style={{ animation: "spin 1s linear infinite" }}
+                >
+                  <style>
+                    {`@keyframes spin { 100% { transform: rotate(360deg); } }`}
+                  </style>
+                  <path 
+                    d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    fill="none" 
+                  />
+                </svg>
+                Submitting...
+              </>
+            ) : (
+              "Submit Report"
+            )}
           </button>
         </form>
       </div>

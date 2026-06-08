@@ -33,7 +33,16 @@ export const createFoundItem = async (req, res) => {
 
         const uploadPromises = req.files.map(file => {
             return new Promise((resolve, reject) => {
-                cloudinary.uploader.upload_stream({ folder: "foundItems" }, (err, res) => {
+                cloudinary.uploader.upload_stream({ 
+                folder: "foundItems", // or "foundItems"
+                transformation: [
+                    // 'limit' ensures the whole image is kept. It will size it down 
+                    // to a max of 1200x1200px to save space, but NEVER crop or zoom.
+                    { width: 1200, height: 1200, crop: "limit" },
+                    { quality: "auto" }, // Automatically compresses file size
+                    { fetch_format: "auto" } // Uses modern web formats (WebP/AVIF)
+                ]
+            }, (err, res) => {
                     err ? reject(err) : resolve({ url: res.secure_url, public_id: res.public_id });
                 }).end(file.buffer);
             });
