@@ -6,7 +6,10 @@ import upload from "../middleware/upload.js";
 const router = express.Router();
 
 //Lost-Item Routes
-router.post("/create-lost-item",upload.array("images", 10), createLostItem);
+router.post("/create-lost-item",
+    upload.array("images", 10),
+    createLostItem);
+    
 router.get('/get-recent-lost/:userId', getRecentLost);
 router.get('/all-lost-items',getAllLostItems);
 
