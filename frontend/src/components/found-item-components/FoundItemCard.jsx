@@ -20,7 +20,7 @@ const formatDate = (dateValue) => {
     }).format(new Date(dateValue));
 };
 
-const FoundItemCard = ({ item }) => {
+const FoundItemCard = ({ item ,  openChat }) => {
     const {
         itemName,
         category,
@@ -107,6 +107,7 @@ const FoundItemCard = ({ item }) => {
 
                 <button
                     type="button"
+                     onClick={() => openChat(item._id)}
                     className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-emerald-600 focus:outline-none focus:ring-4 focus:ring-emerald-200"
                 >
                     View Details

@@ -22,7 +22,7 @@ if (!clerkPubKey) {
 }
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  
     <ClerkProvider publishableKey={clerkPubKey}>
       <AuthGuard />
       <BrowserRouter>
@@ -42,5 +42,5 @@ createRoot(document.getElementById('root')).render(
 
       </BrowserRouter>
     </ClerkProvider>
-  </StrictMode>,
+  
 )

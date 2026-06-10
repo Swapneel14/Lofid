@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import FoundItemCard from "../found-item-components/FoundItemCard";
+import ChatRoom from "./ChatRoom";
 
 const FoundItems = () => {
   const [foundItems, setFoundItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedRoom, setSelectedRoom] = useState(null);
 
   useEffect(() => {
     const fetchFoundItems = async () => {
@@ -58,7 +60,7 @@ const FoundItems = () => {
         {foundItems.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {foundItems.map((item) => (
-              <FoundItemCard key={item._id} item={item} />
+              <FoundItemCard key={item._id} item={item} openChat={setSelectedRoom} />
             ))}
           </div>
         ) : (
@@ -74,6 +76,13 @@ const FoundItems = () => {
           </div>
         )}
       </section>
+
+       {selectedRoom && (
+      <ChatRoom
+        roomId={selectedRoom}
+        onClose={() => setSelectedRoom(null)}
+      />
+    )}
     </main>
   );
 };
