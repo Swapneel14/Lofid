@@ -27,7 +27,7 @@ function AllLostItems() {
   const fetchLostItems = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:6769/api/item/all-lost-items"
+        "http://localhost:6769/api/item/all-lost-items",
       );
 
       if (response.data.success) {
@@ -44,8 +44,30 @@ function AllLostItems() {
   };
 
   // Note: Make sure handleMarkFound and handleFound are defined in your file!
-  const handleMarkFound = (itemId) => {
-    console.log("Marking as found:", itemId);
+  const handleMarkFound = async (itemId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to mark this item as found? This will delete the item.",
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      const response = await axios.delete(
+        `http://localhost:6769/api/item/delete-lost-item/${itemId}`,
+      );
+
+      if (response.data.success) {
+        // Remove item from UI without refetching
+        setLostItems((prevItems) =>
+          prevItems.filter((item) => item._id !== itemId),
+        );
+
+        alert("Item marked as found and report deleted.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete report.");
+    }
   };
 
   const handleFound = (itemId) => {
@@ -62,7 +84,6 @@ function AllLostItems() {
       <div className="lost-items-grid">
         {lostItems.map((item) => (
           <div key={item._id} className="lost-item-card">
-            
             {/* SWIPER IMAGE CAROUSEL */}
             <div className="lost-item-image">
               <Swiper
@@ -108,7 +129,7 @@ function AllLostItems() {
                 <h3>{item.itemName}</h3>
                 <span className="category-badge">{item.category}</span>
               </div>
-              
+
               <div className="item-details">
                 <div className="detail-row">
                   <span className="detail-label">Location</span>
@@ -118,7 +139,7 @@ function AllLostItems() {
                 <div className="detail-row">
                   <span className="detail-label">Date</span>
                   <span className="detail-value">
-                    {new Date(item.lostDate).toLocaleDateString('en-IN')}
+                    {new Date(item.lostDate).toLocaleDateString("en-IN")}
                   </span>
                 </div>
 

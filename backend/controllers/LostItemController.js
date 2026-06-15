@@ -247,3 +247,42 @@ export const getAllLostItems = async (req, res) => {
         });
     }
 };
+
+export const deleteLostItem = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const lostItem = await LostItem.findById(id);
+
+        if (!lostItem) {
+            return res.status(404).json({
+                success: false,
+                message: "Lost item not found!",
+            });
+        }
+
+        // Delete images from Cloudinary
+        if (lostItem.images && lostItem.images.length > 0) {
+            const deletePromises = lostItem.images.map((image) =>
+                cloudinary.uploader.destroy(image.public_id)
+            );
+
+            await Promise.all(deletePromises);
+        }
+
+        // Delete document from MongoDB
+        await LostItem.findByIdAndDelete(id);
+
+        return res.status(200).json({
+            success: true,
+            message: "Lost item deleted successfully!",
+        });
+    } catch (error) {
+        console.error("Error deleting lost item: ", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Server Error!",
+            error: error.message,
+        });
+    }
+};
