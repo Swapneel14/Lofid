@@ -1,5 +1,5 @@
 import express from "express";
-import { createLostItem, getAllLostItems, getRecentLost } from "../controllers/LostItemController.js";
+import { createLostItem, deleteLostItem, getAllLostItems, getRecentLost } from "../controllers/LostItemController.js";
 import { createFoundItem, getAllFoundItems, getFoundItems } from "../controllers/FoundItemController.js";
 import upload from "../middleware/upload.js";
 
@@ -12,6 +12,7 @@ router.post("/create-lost-item",
     
 router.get('/get-recent-lost/:userId', getRecentLost);
 router.get('/all-lost-items',getAllLostItems);
+router.delete("/delete-lost-item/:id", deleteLostItem);
 
 //Found-Item Routes
 router.post("/create-found-item",
