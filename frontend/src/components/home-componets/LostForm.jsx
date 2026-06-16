@@ -302,14 +302,18 @@
 
 // export default LostForm;
 
-
 import "../../css/LostForm.css";
 import axios from "axios";
 import { useUser } from "@clerk/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 function LostForm() {
   const { user } = useUser();
+  const { itemId } = useParams();
+
+  const navigate = useNavigate();
+  const isEditMode = !!itemId;
 
   const [formData, setFormData] = useState({
     itemName: "",
@@ -324,6 +328,33 @@ function LostForm() {
 
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (itemId) {
+      fetchItem();
+    }
+  }, [itemId]);
+
+  const fetchItem = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:6769/api/item/lost-item/${itemId}`,
+      );
+
+      const item = response.data.lostItem;
+
+      setFormData({
+        itemName: item.itemName,
+        category: item.category,
+        description: item.description,
+        lostDate: item.lostDate.split("T")[0],
+        lostTime: item.lostTime,
+        lostLocation: item.lostLocation,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -361,18 +392,40 @@ function LostForm() {
     });
 
     try {
-      const response = await axios.post(
-        "http://localhost:6769/api/item/create-lost-item",
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
+      let response;
+
+      if (isEditMode) {
+        response = await axios.put(
+          `http://localhost:6769/api/item/update-lost-item/${itemId}`,
+          data,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
           },
-        }
-      );
+        );
+
+
+        navigate("/all-lost-items");
+      } else {
+        response = await axios.post(
+          "http://localhost:6769/api/item/create-lost-item",
+          data,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          },
+        );
+
+      }
 
       if (response.data.success) {
-        alert("Lost item reported successfully!");
+        alert(
+          isEditMode
+            ? "Report updated successfully!"
+            : "Lost item reported successfully!",
+        );
 
         setFormData({
           itemName: "",
@@ -396,7 +449,9 @@ function LostForm() {
   return (
     <div className="lost-form-wrapper">
       <div className="form-card">
-        <h1 className="form-header">Lost Something?</h1>
+        <h1 className="form-header">
+          {isEditMode ? "Edit Lost Item" : "Lost Something?"}
+        </h1>
 
         <form onSubmit={handleSubmit}>
           {/* Item Name */}
@@ -474,7 +529,7 @@ function LostForm() {
                 readOnly
               />
 
-              <label 
+              <label
                 className={`file-select-btn ${isSubmitting ? "disabled" : ""}`}
                 style={{ cursor: isSubmitting ? "not-allowed" : "pointer" }}
               >
@@ -501,7 +556,9 @@ function LostForm() {
                       className="remove-file-btn"
                       onClick={() => removeFile(index)}
                       disabled={isSubmitting}
-                      style={{ cursor: isSubmitting ? "not-allowed" : "pointer" }}
+                      style={{
+                        cursor: isSubmitting ? "not-allowed" : "pointer",
+                      }}
                     >
                       ✕
                     </button>
@@ -591,41 +648,43 @@ function LostForm() {
           </div>
 
           {/* Submit */}
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="submit-btn"
             disabled={isSubmitting}
-            style={{ 
-              display: "flex", 
-              justifyContent: "center", 
-              alignItems: "center", 
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
               gap: "8px",
-              cursor: isSubmitting ? "not-allowed" : "pointer" 
+              cursor: isSubmitting ? "not-allowed" : "pointer",
             }}
           >
             {isSubmitting ? (
               <>
-                <svg 
-                  width="20" 
-                  height="20" 
-                  viewBox="0 0 24 24" 
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
                   style={{ animation: "spin 1s linear infinite" }}
                 >
                   <style>
                     {`@keyframes spin { 100% { transform: rotate(360deg); } }`}
                   </style>
-                  <path 
-                    d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" 
-                    stroke="currentColor" 
-                    strokeWidth="2" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    fill="none" 
+                  <path
+                    d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    fill="none"
                   />
                 </svg>
                 Submitting...
               </>
+            ) : isEditMode ? (
+              "Update Report"
             ) : (
               "Submit Report"
             )}

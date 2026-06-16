@@ -1,5 +1,5 @@
 import express from "express";
-import { createLostItem, deleteLostItem, getAllLostItems, getRecentLost } from "../controllers/LostItemController.js";
+import { createLostItem, deleteLostItem, getAllLostItems, getLostItemById, getRecentLost, updateLostItem } from "../controllers/LostItemController.js";
 import { createFoundItem, getAllFoundItems, getFoundItems } from "../controllers/FoundItemController.js";
 import upload from "../middleware/upload.js";
 
@@ -13,6 +13,8 @@ router.post("/create-lost-item",
 router.get('/get-recent-lost/:userId', getRecentLost);
 router.get('/all-lost-items',getAllLostItems);
 router.delete("/delete-lost-item/:id", deleteLostItem);
+router.put("/update-lost-item/:id", upload.array("images") ,updateLostItem);
+router.get("/lost-item/:id", getLostItemById);
 
 //Found-Item Routes
 router.post("/create-found-item",

@@ -2,6 +2,7 @@ import "../css/AllLostItems.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useUser, SignInButton } from "@clerk/react";
+import { useNavigate } from "react-router-dom";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
@@ -16,6 +17,7 @@ const fallbackImage =
 
 function AllLostItems() {
   const { user } = useUser();
+  const navigate = useNavigate();
 
   const [lostItems, setLostItems] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState(null);
@@ -40,6 +42,7 @@ function AllLostItems() {
   };
 
   const handleEdit = (itemId) => {
+    navigate(`/report-lost/${itemId}`);
     console.log("Edit:", itemId);
   };
 
