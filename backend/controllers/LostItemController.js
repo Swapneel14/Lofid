@@ -286,3 +286,62 @@ export const deleteLostItem = async (req, res) => {
         });
     }
 };
+
+export const updateLostItem = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updatedItem = await LostItem.findByIdAndUpdate(
+      id,
+      {
+        itemName: req.body.itemName,
+        category: req.body.category,
+        description: req.body.description,
+        lostDate: req.body.lostDate,
+        lostTime: req.body.lostTime,
+        lostLocation: req.body.lostLocation,
+      },
+      { new: true }
+    ).populate("userId");
+
+    if (!updatedItem) {
+      return res.status(404).json({
+        success: false,
+        message: "Item not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      lostItem: updatedItem,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const getLostItemById = async (req, res) => {
+  try {
+    const lostItem = await LostItem.findById(req.params.id);
+
+    if (!lostItem) {
+      return res.status(404).json({
+        success: false,
+        message: "Item not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      lostItem,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

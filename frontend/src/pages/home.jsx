@@ -11,6 +11,7 @@ import FoundForm from "../components/home-componets/FoundForm";
 import NotFound from "./PageNotFound";
 import FoundItems from "../components/home-componets/FoundItems";
 import AllLostItems from "./AllLostItems";
+import EditLostItem from "./EditLostItem";
 
 function Home() {
     const [showSidebar, setShowSidebar] = useState(false);
@@ -43,7 +44,7 @@ function Home() {
                         <Route path="foundItems" element={<FoundItems />} />
                         <Route path="all-lost-items" element={<AllLostItems />} />
                         <Route path="messages" element={<Messages />} />
-                        <Route path="report-lost" element={<LostForm />} />
+                        <Route path="/report-lost/:itemId" element={<LostForm />} />
                         <Route path="report-found" element={<FoundForm />} />
 
                         <Route path="*" element={<NotFound />} />
