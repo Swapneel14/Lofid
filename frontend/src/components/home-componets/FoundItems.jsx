@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import FoundItemCard from "../found-item-components/FoundItemCard";
 import ChatRoom from "./ChatRoom";
+import { useUser, SignInButton } from "@clerk/react";
 
 const FoundItems = () => {
+  const { user } = useUser();
   const [foundItems, setFoundItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -28,6 +30,37 @@ const FoundItems = () => {
 
     fetchFoundItems();
   }, []);
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-100 px-4">
+        <div className="bg-white rounded-4xl shadow-xl p-8 max-w-md w-full text-center">
+
+          <div className="mb-4">
+            <div className="w-20 h-20 mx-auto rounded-full bg-blue-100 flex items-center justify-center text-3xl">
+              🔒
+            </div>
+          </div>
+
+          <h2 className="text-2xl font-bold text-slate-900">
+            Login Required
+          </h2>
+
+          <p className="text-slate-600 mt-3">
+            Please sign in to view found items and
+            participate in chats.
+          </p>
+
+          <SignInButton mode="modal">
+            <button className="mt-6 px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">
+              Login
+            </button>
+          </SignInButton>
+
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -77,12 +110,12 @@ const FoundItems = () => {
         )}
       </section>
 
-       {selectedRoom && (
-      <ChatRoom
-        roomId={selectedRoom}
-        onClose={() => setSelectedRoom(null)}
-      />
-    )}
+      {selectedRoom && (
+        <ChatRoom
+          roomId={selectedRoom}
+          onClose={() => setSelectedRoom(null)}
+        />
+      )}
     </main>
   );
 };
