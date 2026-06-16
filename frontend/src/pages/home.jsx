@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import SideBar from "../components/home-componets/SideBar";
-import AllPosts from "../components/home-componets/AllPosts";
+import Dashboard from "../components/home-componets/Dashboard";
 import Profile from "../components/home-componets/Profile";
 
 import { Routes, Route } from "react-router-dom";
@@ -37,7 +37,7 @@ function Home() {
                 <div className="col-lg-10 col-md-9">
 
                     <Routes>
-                        <Route index element={<AllPosts />} />
+                        <Route index element={<Dashboard />} />
 
                         <Route path="profile" element={<Profile />} />
                         <Route path="foundItems" element={<FoundItems />} />

@@ -2,6 +2,7 @@ import express from "express";
 import { createLostItem, deleteLostItem, getAllLostItems, getRecentLost } from "../controllers/LostItemController.js";
 import { createFoundItem, getAllFoundItems, getFoundItems } from "../controllers/FoundItemController.js";
 import upload from "../middleware/upload.js";
+import { getUserItems } from "../controllers/AllItemsController.js";
 
 const router = express.Router();
 
@@ -24,5 +25,7 @@ router.get("/get-recent-found/:userId", getFoundItems);
 router.get("/get-all-found-items", getAllFoundItems);
 
 
+//All items Routes
+router.get("/get-all-items/:userId",getUserItems);
 
 export default router;
