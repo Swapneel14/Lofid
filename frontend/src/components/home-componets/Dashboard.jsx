@@ -194,6 +194,7 @@ import { useAuth, useUser } from '@clerk/react';
 import { motion } from 'framer-motion';
 import { Search, Layers, AlertCircle, CheckCircle2, TrendingUp } from 'lucide-react';
 import PostCard from '../dashboard-card-component/PostCard';
+import "../../css/DashBoard.css";
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -272,164 +273,276 @@ export default function Dashboard() {
     const foundCount = items.filter(item => item.status === 'found').length;
 
     return (
-        <div className="max-w-360 mx-auto px-6 sm:px-10 py-12 min-h-screen bg-slate-50/40">
+        <div className="container py-4">
 
-            {/* 1. Personalized Hero Banner (More Padding, Larger text) */}
-            <div className="relative bg-linear-to-r from-blue-600 to-indigo-700 rounded-4xl p-10 sm:p-14 mb-12 overflow-hidden shadow-xl shadow-blue-900/10 border border-blue-500/20 text-white">
-                <div className="absolute top-0 right-0 -translate-y-12 translate-x-1/3 opacity-10 pointer-events-none">
-                    <svg width="500" height="500" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="#FFFFFF" d="M44.7,-76.4C58.8,-69.2,71.8,-59.1,81.6,-46.3C91.4,-33.5,98,-18,97.1,-2.9C96.2,12.2,87.8,26.8,77.7,39.3C67.6,51.8,55.8,62.2,42.4,70.1C29,78,-6,83.4,-19.6,79.8C-33.2,76.2,-48.5,63.6,-59.8,50.1C-71.1,36.6,-78.4,22.2,-82.1,6.8C-85.8,-8.6,-85.9,-25,-78.7,-38.3C-71.5,-51.6,-57,-61.8,-42.6,-68.9C-28.2,-76,-14.1,-80,0.8,-81.3C15.7,-82.6,30.6,-83.6,44.7,-76.4Z" transform="translate(100 100)" />
-                    </svg>
-                </div>
+            {/* HERO */}
+            <div className="dashboard-hero">
 
-                <div className="relative z-10 px-3 ">
-                    <div className="inline-flex mx-2 mt-2 items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm font-bold tracking-wider uppercase mb-6 backdrop-blur-sm shadow-sm">
-                        <TrendingUp size={16} /> Dashboard Overview
+                <div className="dashboard-hero-glow"></div>
+
+                <div className="container">
+
+                    <div className="row align-items-center">
+
+                        <div className="col-lg-8 text-center text-lg-start">
+
+                            <div className="dashboard-hero-badge">
+                                ✨ Dashboard Overview
+                            </div>
+
+                            <h1 className="dashboard-hero-title">
+                                Welcome back,
+                                <span className="dashboard-hero-name">
+                                    {" "}{user?.firstName || "Student"} 👋
+                                </span>
+                            </h1>
+
+                            <p className="dashboard-hero-subtitle">
+                                Manage your lost and found reports with ease and stay connected with your campus community.
+                            </p>
+
+                        </div>
+
+                        <div className="col-lg-4 mt-4 mt-lg-0">
+
+                            <div className="dashboard-profile-card mx-auto ms-lg-auto">
+
+                                <img
+                                    src={user?.imageUrl}
+                                    className="dashboard-profile-image"
+                                    alt="profile"
+                                />
+
+                                <div>
+
+                                    <h5>{user?.fullName}</h5>
+
+                                    <p>Campus Member</p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
                     </div>
-                    <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
-                        Welcome back, {user?.firstName || 'Student'}! 👋
-                    </h1>
-                    <p className="text-blue-100 text-base sm:text-lg max-w-2xl leading-relaxed">
-                        Here is your personal command center. Track, update, and manage all your reported items across campus in one place.
-                    </p>
+
                 </div>
+
             </div>
 
-            {/* 2. Quick Stats Overview Row (Increased Gap & Padding) */}
+
+
+            {/* STATS */}
+
             {!loading && !error && (
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mb-14 mt-10!">
-                    <div className="bg-white p-7 sm:p-8 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-6 transition-transform hover:-translate-y-1 hover:shadow-md duration-300">
-                        <div className="w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                            <Layers size={28} className="stroke-2" />
+
+                <div className="dashboard-stats-section">
+
+                    <div className="row g-4">
+
+                        <div className="col-lg-4 col-md-6">
+
+                            <div className="dashboard-stat-card">
+
+                                <div className="dashboard-stat-icon blue">
+
+                                    <Layers size={28} />
+
+                                </div>
+
+                                <div>
+
+                                    <p className="dashboard-stat-label">
+                                        Total Reports
+                                    </p>
+
+                                    <h2 className="dashboard-stat-value">
+                                        {totalPosts}
+                                    </h2>
+
+                                </div>
+
+                            </div>
+
                         </div>
-                        <div>
-                            <p className="text-base font-semibold text-slate-500 mb-1">Total Reports</p>
-                            <h3 className="text-4xl font-black text-slate-800">{totalPosts}</h3>
+
+
+
+                        <div className="col-lg-4 col-md-6">
+
+                            <div className="dashboard-stat-card">
+
+                                <div className="dashboard-stat-icon red">
+
+                                    <AlertCircle size={28} />
+
+                                </div>
+
+                                <div>
+
+                                    <p className="dashboard-stat-label">
+                                        Lost Items
+                                    </p>
+
+                                    <h2 className="dashboard-stat-value">
+                                        {lostCount}
+                                    </h2>
+
+                                </div>
+
+                            </div>
+
                         </div>
+
+
+
+                        <div className="col-lg-4 col-md-12">
+
+                            <div className="dashboard-stat-card">
+
+                                <div className="dashboard-stat-icon green">
+
+                                    <CheckCircle2 size={28} />
+
+                                </div>
+
+                                <div>
+
+                                    <p className="dashboard-stat-label">
+                                        Found Items
+                                    </p>
+
+                                    <h2 className="dashboard-stat-value">
+                                        {foundCount}
+                                    </h2>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
                     </div>
 
-                    <div className="bg-white p-7 sm:p-8 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-6 transition-transform hover:-translate-y-1 hover:shadow-md duration-300">
-                        <div className="w-16 h-16 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center shrink-0">
-                            <AlertCircle size={28} className="stroke-2" />
-                        </div>
-                        <div>
-                            <p className="text-base font-semibold text-slate-500 mb-1">Items Lost</p>
-                            <h3 className="text-4xl font-black text-slate-800">{lostCount}</h3>
-                        </div>
-                    </div>
-
-                    <div className="bg-white p-7 sm:p-8 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-6 transition-transform hover:-translate-y-1 hover:shadow-md duration-300">
-                        <div className="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0">
-                            <CheckCircle2 size={28} className="stroke-2" />
-                        </div>
-                        <div>
-                            <p className="text-base font-semibold text-slate-500 mb-1">Items Found</p>
-                            <h3 className="text-4xl font-black text-slate-800">{foundCount}</h3>
-                        </div>
-                    </div>
                 </div>
+
             )}
 
-            {/* Section Divider (Larger text & more bottom margin) */}
-            {/* <h2 className="text-2xl! font-extrabold! tracking-tight! m-2! 
-  bg-linear-to-r! from-blue-400! to-blue-900!
-  bg-clip-text! text-transparent! 
-  drop-shadow-md!">
-                Recent Activity
-            </h2> */}
 
 
+            {/* RECENT ACTIVITY */}
 
-            <div className="m-7! animate-[floatBubble_4s_ease-in-out_infinite] relative inline-flex items-center justify-center px-8! py-2! rounded-full overflow-hidden group">
+            <div className="dashboard-recent-wrapper">
 
-                {/* Animated Bubble Background */}
-                <div
-                    className="
-            absolute inset-0
-            rounded-full
-            bg-[linear-gradient(120deg,#60a5fa,#8b5cf6,#06b6d4,#3b82f6)]
-            bg-[length:300%_300%]
-            animate-[gradientMove_8s_ease_infinite]
-        "
-                />
+                <div className="dashboard-recent-left">
 
-                {/* Floating Bubble Highlights */}
-                <div className="absolute w-12 h-12 rounded-full bg-white/20 blur-md top-1 left-6 animate-pulse" />
-                <div className="absolute w-8 h-8 rounded-full bg-white/15 blur-sm bottom-1 right-8 animate-pulse delay-700" />
-                <div className="absolute w-5 h-5 rounded-full bg-white/20 blur-sm top-3 right-20 animate-pulse delay-1000" />
+                    <h2 className="dashboard-recent-title">
+                        Recent Activity
+                    </h2>
 
-                {/* Glass Layer */}
-                <div
-                    className="
-            absolute inset-0
-            rounded-full
-            backdrop-blur-xl
-            bg-white/10
-            border border-white/20
-        "
-                />
+                    <p className="dashboard-recent-subtitle">
+                        Keep track of your latest lost and found reports.
+                    </p>
 
-                <h2
-                    className="
-            relative z-10
-            text-2xl
-            font-extrabold
-            tracking-tight
-            bg-gradient-to-r
-            from-white
-            via-blue-100
-            to-white
-            bg-clip-text
-            text-transparent
-            drop-shadow-lg
-        "
-                >
-                    Recent Activity
-                </h2>
+                </div>
+
+                <button className="dashboard-view-btn">
+
+                    View All
+
+                    <span className="ms-2">
+                        →
+                    </span>
+
+                </button>
+
             </div>
 
 
 
+            {/* LOADING */}
 
-
-            {/* Loading Skeleton Elements (Wider gaps) */}
             {loading && (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+
+                <div className="row g-4">
+
                     {[1, 2, 3].map((n) => (
-                        <div key={n} className="bg-white border border-slate-100 h-450px rounded-3xl animate-pulse shadow-sm" />
+
+                        <div className="col-lg-4 col-md-6" key={n}>
+
+                            <div
+                                className="bg-white rounded-4 shadow-sm"
+                                style={{ height: "300px" }}
+                            />
+
+                        </div>
+
                     ))}
+
                 </div>
+
             )}
 
-            {/* Error Alert Display Box */}
+
+
+            {/* ERROR */}
+
             {error && (
-                <div className="bg-rose-50 border border-rose-200 text-rose-700 px-6 py-5 rounded-2xl text-base font-semibold text-center max-w-2xl mx-auto my-16 shadow-sm">
+
+                <div className="alert alert-danger mt-4">
+
                     {error}
+
                 </div>
+
             )}
 
-            {/* Empty Database State View */}
+
+
+            {/* EMPTY */}
+
             {!loading && !error && items.length === 0 && (
-                <div className="text-center py-24 bg-white rounded-3xl border border-slate-100 max-w-2xl mx-auto shadow-sm px-8">
-                    <Layers size={48} className="mx-auto text-slate-300 mb-4" />
-                    <p className="text-slate-500 font-medium text-lg">
+
+                <div className="text-center py-5 bg-white rounded-4 shadow-sm mt-4">
+
+                    <Layers size={48} className="mb-3 text-secondary" />
+
+                    <p className="text-muted mb-0">
+
                         You haven't submitted any lost or found items yet.
+
                     </p>
+
                 </div>
+
             )}
 
-            {/* Structured Clean Item Post Grid (Increased gap-8 for spaciousness) */}
+
+
+            {/* POSTS */}
+
             {!loading && !error && items.length > 0 && (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+
+                <div className="row g-4">
+
                     {items.map((item) => (
-                        <PostCard
-                            key={item._id}
-                            item={item}
-                            onEdit={handleEdit}
-                        />
+
+                        <div className="col-xl-4 col-md-6" key={item._id}>
+
+                            <PostCard
+                                item={item}
+                                onEdit={handleEdit}
+                            />
+
+                        </div>
+
                     ))}
+
                 </div>
+
             )}
+
         </div>
     );
 }

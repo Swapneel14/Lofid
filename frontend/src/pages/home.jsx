@@ -44,6 +44,7 @@ function Home() {
                         <Route path="foundItems" element={<FoundItems />} />
                         <Route path="all-lost-items" element={<AllLostItems />} />
                         <Route path="messages" element={<Messages />} />
+                        <Route path="/report-lost" element={<LostForm />} />
                         <Route path="/report-lost/:itemId" element={<LostForm />} />
                         <Route path="report-found" element={<FoundForm />} />
 
