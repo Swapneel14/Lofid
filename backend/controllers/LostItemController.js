@@ -177,16 +177,16 @@ export const createLostItem = async (req, res) => {
         if (req.files && req.files.length > 0) {
             const uploadPromises = req.files.map(file => {
                 return new Promise((resolve, reject) => {
-                    cloudinary.uploader.upload_stream({ 
-                folder: "lostItems", // or "foundItems"
-                transformation: [
-                    // 'limit' ensures the whole image is kept. It will size it down 
-                    // to a max of 1200x1200px to save space, but NEVER crop or zoom.
-                    { width: 1200, height: 1200, crop: "limit" },
-                    { quality: "auto" }, // Automatically compresses file size
-                    { fetch_format: "auto" } // Uses modern web formats (WebP/AVIF)
-                ]
-            }, (err, result) => {
+                    cloudinary.uploader.upload_stream({
+                        folder: "lostItems", // or "foundItems"
+                        transformation: [
+                            // 'limit' ensures the whole image is kept. It will size it down 
+                            // to a max of 1200x1200px to save space, but NEVER crop or zoom.
+                            { width: 1200, height: 1200, crop: "limit" },
+                            { quality: "auto" }, // Automatically compresses file size
+                            { fetch_format: "auto" } // Uses modern web formats (WebP/AVIF)
+                        ]
+                    }, (err, result) => {
                         err ? reject(err) : resolve({ url: result.secure_url, public_id: result.public_id });
                     }).end(file.buffer);
                 });
@@ -288,60 +288,126 @@ export const deleteLostItem = async (req, res) => {
 };
 
 export const updateLostItem = async (req, res) => {
-  try {
-    const { id } = req.params;
+    try {
+        const { id } = req.params;
 
-    const updatedItem = await LostItem.findByIdAndUpdate(
-      id,
-      {
-        itemName: req.body.itemName,
-        category: req.body.category,
-        description: req.body.description,
-        lostDate: req.body.lostDate,
-        lostTime: req.body.lostTime,
-        lostLocation: req.body.lostLocation,
-      },
-      { new: true }
-    ).populate("userId");
+        const {
+            itemName,
+            category,
+            description,
+            lostDate,
+            lostTime,
+            lostLocation,
+        } = req.body;
 
-    if (!updatedItem) {
-      return res.status(404).json({
-        success: false,
-        message: "Item not found",
-      });
+        // Images that the user chose to keep
+        const existingImages = JSON.parse(req.body.existingImages || "[]");
+
+        const lostItem = await LostItem.findById(id);
+
+        if (!lostItem) {
+            return res.status(404).json({
+                success: false,
+                message: "Item not found",
+            });
+        }
+
+        // Update text fields
+        lostItem.itemName = itemName;
+        lostItem.category = category;
+        lostItem.description = description;
+        lostItem.lostDate = lostDate;
+        lostItem.lostTime = lostTime;
+        lostItem.lostLocation = lostLocation;
+
+        // Delete only those old images that the user removed
+        for (const oldImage of lostItem.images) {
+            const stillExists = existingImages.some(
+                (img) => img.public_id === oldImage.public_id
+            );
+
+            if (!stillExists && oldImage.public_id) {
+                await cloudinary.uploader.destroy(oldImage.public_id);
+            }
+        }
+
+        // Upload newly selected images
+        let uploadedImages = [];
+
+        if (req.files && req.files.length > 0) {
+            const uploadPromises = req.files.map((file) => {
+                return new Promise((resolve, reject) => {
+                    cloudinary.uploader.upload_stream(
+                        {
+                            folder: "lostItems",
+                            transformation: [
+                                { width: 1200, height: 1200, crop: "limit" },
+                                { quality: "auto" },
+                                { fetch_format: "auto" },
+                            ],
+                        },
+                        (err, result) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve({
+                                    url: result.secure_url,
+                                    public_id: result.public_id,
+                                });
+                            }
+                        }
+                    ).end(file.buffer);
+                });
+            });
+
+            uploadedImages = await Promise.all(uploadPromises);
+        }
+
+        // Combine kept old images with newly uploaded images
+        lostItem.images = [
+            ...existingImages,
+            ...uploadedImages,
+        ];
+
+        await lostItem.save();
+
+        const updatedItem = await LostItem.findById(id).populate("userId");
+
+        return res.status(200).json({
+            success: true,
+            message: "Lost item updated successfully",
+            lostItem: updatedItem,
+        });
+    } catch (error) {
+        console.error("Error updating lost item:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Server Error",
+            error: error.message,
+        });
     }
-
-    res.status(200).json({
-      success: true,
-      lostItem: updatedItem,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
 };
 
 export const getLostItemById = async (req, res) => {
-  try {
-    const lostItem = await LostItem.findById(req.params.id);
+    try {
+        const lostItem = await LostItem.findById(req.params.id);
 
-    if (!lostItem) {
-      return res.status(404).json({
-        success: false,
-        message: "Item not found",
-      });
+        if (!lostItem) {
+            return res.status(404).json({
+                success: false,
+                message: "Item not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            lostItem,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
     }
-
-    res.status(200).json({
-      success: true,
-      lostItem,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
 };

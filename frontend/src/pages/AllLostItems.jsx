@@ -41,11 +41,6 @@ function AllLostItems() {
     }
   };
 
-  const handleEdit = (itemId) => {
-    navigate(`/report-lost/${itemId}`);
-    console.log("Edit:", itemId);
-  };
-
   const handleMarkFound = async (itemId) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to mark this item as found? This will delete the item."
@@ -247,13 +242,6 @@ function AllLostItems() {
                 >
                   {user?.id === item.userId?._id && (
                     <>
-                      <button
-                        className="edit-btn"
-                        onClick={() => handleEdit(item._id)}
-                      >
-                        ✏️ Edit Report
-                      </button>
-
                       <button
                         className="mark-found-btn"
                         onClick={() => handleMarkFound(item._id)}
