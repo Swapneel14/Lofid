@@ -231,8 +231,8 @@ export default function Dashboard() {
     }, [isSignedIn, user]);
 
     const handleEdit = (item) => {
-        const route = item.status === 'lost' ? '/report-lost' : '/report-found';
-        navigate(`${route}?itemId=${item._id}`);
+        const route = item.status === 'lost' ? '/edit-lost-item' : '/edit-found-item';
+        navigate(`/${route}/${item._id}`);
     };
 
     if (!isAuthLoaded) {
