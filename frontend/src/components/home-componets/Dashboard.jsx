@@ -232,7 +232,7 @@ export default function Dashboard() {
 
     const handleEdit = (item) => {
         const route = item.status === 'lost' ? '/edit-lost-item' : '/edit-found-item';
-        navigate(`/${route}/${item._id}`);
+        navigate(`/home/${route}/${item._id}`);
     };
 
     if (!isAuthLoaded) {

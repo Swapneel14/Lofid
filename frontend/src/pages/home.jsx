@@ -45,12 +45,13 @@ function Home() {
                         <Route path="foundItems" element={<FoundItems />} />
                         <Route path="all-lost-items" element={<AllLostItems />} />
                         <Route path="messages" element={<Messages />} />
-                        <Route path="/report-lost" element={<LostForm />} />
+                        <Route path="report-lost" element={<LostForm />} />
                         <Route path="report-found" element={<FoundForm />} />
-                        <Route path="/edit-lost-item/:itemId" element={<EditLostForm/>} />
-                        <Route path="/edit-found-item/:itemId" element={<EditFoundForm/>} />
-
+                        <Route path="edit-lost-item/:itemId" element={<EditLostForm/>} />
+                        <Route path="edit-found-item/:itemId" element={<EditFoundForm/>} />
                         <Route path="*" element={<NotFound />} />
+
+                        
                     </Routes>
                 </div>
             </div>

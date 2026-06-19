@@ -234,30 +234,23 @@ function AllLostItems() {
                 </div>
 
                 <div
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    marginTop: "12px",
-                  }}
+                  className={`item-actions ${user?.id === item.userId?._id ? "two-buttons" : "single-button"
+                    }`}
                 >
                   {user?.id === item.userId?._id && (
-                    <>
-                      <button
-                        className="mark-found-btn"
-                        onClick={() => handleMarkFound(item._id)}
-                      >
-                        ✓ Mark as Found
-                      </button>
-                    </>
+                    <button
+                      className="mark-found-btn"
+                      onClick={() => handleMarkFound(item._id)}
+                    >
+                      Mark as Found
+                    </button>
                   )}
 
                   <button
                     className="chat-btn"
-                    onClick={() =>
-                      setSelectedRoom(`lost-${item._id}`)
-                    }
+                    onClick={() => setSelectedRoom(`lost-${item._id}`)}
                   >
-                    💬 Chat
+                    Open Chat
                   </button>
                 </div>
               </div>

@@ -135,7 +135,7 @@ const NotFound = () => {
 
         {/* CTA with glow wrapper */}
         <div className="enf-btn-wrap">
-          <button className="enf-home-btn" onClick={() => navigate("/")}>
+          <button className="enf-home-btn" onClick={() => navigate("/home")}>
             <svg
               width="18"
               height="18"

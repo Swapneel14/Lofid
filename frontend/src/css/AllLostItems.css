@@ -261,6 +261,49 @@ body{
     max-width:60%;
 }
 
+.item-actions{
+    display:flex;
+    gap:12px;
+    margin-top:16px;
+}
+
+.item-actions.two-buttons button{
+    flex:1;
+}
+
+.item-actions.single-button .chat-btn{
+    width:100%;
+}
+
+.mark-found-btn,
+.chat-btn{
+    height:46px;
+    border:none;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all .2s ease;
+}
+
+.mark-found-btn{
+    background:#16a34a;
+    color:white;
+}
+
+.mark-found-btn:hover{
+    transform:translateY(-2px);
+}
+
+.chat-btn{
+    background:#2563eb;
+    color:white;
+}
+
+.chat-btn:hover{
+    transform:translateY(-2px);
+}
+
 .reporter-section{
     margin-top:1.2rem;
 

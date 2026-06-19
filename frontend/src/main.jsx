@@ -29,11 +29,13 @@ createRoot(document.getElementById('root')).render(
         <Navbar />
 
         <Routes>
-          <Route path='/*' element={<Home />} />
-          <Route path='/about' element={<About />} />
+           <Route path='/' element={<About />} />
+          <Route path='/home/*' element={<Home />} />
+         
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='/login' element={<Login />} />
+          <Route path="*" element={<NotFound />} />
          
 
         </Routes>

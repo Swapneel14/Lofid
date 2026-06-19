@@ -29,11 +29,11 @@ function Navbar() {
 
         <ul className="nav-links">
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/home">Home</Link>
           </li>
 
           <li>
-            <Link to="/about">About</Link>
+            <Link to="/">About</Link>
           </li>
 
           <li className="auth-section">
