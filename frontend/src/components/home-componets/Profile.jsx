@@ -12,46 +12,46 @@ function Profile() {
     const [lostReports, setLostReports] = useState([]);
     const [foundReports, setFoundReports] = useState([]);
 
-useEffect(() => {
+    useEffect(() => {
 
-    const fetchReports = async () => {
+        const fetchReports = async () => {
 
-        try {
+            try {
 
-            const [lostRes, foundRes] = await Promise.all([
+                const [lostRes, foundRes] = await Promise.all([
 
-                axios.get(
-                    `http://localhost:6769/api/item/get-recent-lost/${user.id}`
-                ),
+                    axios.get(
+                        `http://localhost:6769/api/item/get-recent-lost/${user.id}`
+                    ),
 
-                axios.get(
-                    `http://localhost:6769/api/item/get-recent-found/${user.id}`
-                )
+                    axios.get(
+                        `http://localhost:6769/api/item/get-recent-found/${user.id}`
+                    )
 
-            ]);
+                ]);
 
-            if (lostRes.data.success) {
-                setLostReports(
-                    lostRes.data.LostReports
-                );
+                if (lostRes.data.success) {
+                    setLostReports(
+                        lostRes.data.LostReports
+                    );
+                }
+
+                if (foundRes.data.success) {
+                    setFoundReports(
+                        foundRes.data.FoundReports
+                    );
+                }
+
+            } catch (err) {
+                console.log(err);
             }
+        };
 
-            if (foundRes.data.success) {
-                setFoundReports(
-                    foundRes.data.FoundReports
-                );
-            }
-
-        } catch (err) {
-            console.log(err);
+        if (user?.id) {
+            fetchReports();
         }
-    };
 
-    if (user?.id) {
-        fetchReports();
-    }
-
-}, [user?.id]);
+    }, [user?.id]);
 
 
 
@@ -78,10 +78,11 @@ useEffect(() => {
     const clerkName =
         user.fullName || "";
 
-    const displayName =
-        clerkName
-            .replace(/^\S+\s+/, "")
-            .replace(/_/g, " ");
+    const pattern = /^\d{4}[A-Z]{3}\d{3}_/;
+
+    const displayName = /^\d{4}/.test(clerkName)
+        ? clerkName.split(" ")[1]?.replace(/_/g, " ") || clerkName
+        : clerkName;
 
     const departmentMap = {
 
@@ -184,54 +185,54 @@ useEffect(() => {
                     </div>
 
                 </div>
-               
+
 
             </div>
-           <div className="reports-container">
+            <div className="reports-container">
 
-    <div className="reports-column">
+                <div className="reports-column">
 
-        <h2 className="reports-title">
-            Lost Reports
-        </h2>
+                    <h2 className="reports-title">
+                        Lost Reports
+                    </h2>
 
-        {
-            lostReports.length === 0 ? (
-                <p>No lost reports available.</p>
-            ) : (
-                lostReports.map((report) => (
-                    <ReportCard
-                        key={report._id}
-                        report={report}
-                    />
-                ))
-            )
-        }
+                    {
+                        lostReports.length === 0 ? (
+                            <p>No lost reports available.</p>
+                        ) : (
+                            lostReports.map((report) => (
+                                <ReportCard
+                                    key={report._id}
+                                    report={report}
+                                />
+                            ))
+                        )
+                    }
 
-    </div>
+                </div>
 
-    <div className="reports-column">
+                <div className="reports-column">
 
-        <h2 className="reports-title">
-            Found Reports
-        </h2>
+                    <h2 className="reports-title">
+                        Found Reports
+                    </h2>
 
-       {
-    foundReports.length === 0 ? (
-        <p>No found reports available.</p>
-    ) : (
-        foundReports.map((report) => (
-            <ReportCard
-                key={report._id}
-                report={report}
-            />
-        ))
-    )
-}
+                    {
+                        foundReports.length === 0 ? (
+                            <p>No found reports available.</p>
+                        ) : (
+                            foundReports.map((report) => (
+                                <ReportCard
+                                    key={report._id}
+                                    report={report}
+                                />
+                            ))
+                        )
+                    }
 
-    </div>
+                </div>
 
-</div>
+            </div>
 
         </div>
     );
