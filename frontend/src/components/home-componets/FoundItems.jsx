@@ -33,30 +33,39 @@ const FoundItems = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-100 px-4">
-        <div className="bg-white rounded-4xl shadow-xl p-8 max-w-md w-full text-center">
-
-          <div className="mb-4">
-            <div className="w-20 h-20 mx-auto rounded-full bg-blue-100 flex items-center justify-center text-3xl">
-              🔒
-            </div>
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{
+          minHeight: "100vh",
+          background: "#f8fafc",
+        }}
+      >
+        <div
+          className="card shadow-lg border-0 text-center p-4"
+          style={{
+            maxWidth: "450px",
+            width: "90%",
+            borderRadius: "20px",
+          }}
+        >
+          <div style={{ fontSize: "4rem" }}>
+            🔒
           </div>
 
-          <h2 className="text-2xl font-bold text-slate-900">
+          <h2 className="fw-bold mt-3">
             Login Required
           </h2>
 
-          <p className="text-slate-600 mt-3">
-            Please sign in to view found items and
-            participate in chats.
+          <p className="text-muted">
+            Please sign in to view lost item
+            reports and access chat rooms.
           </p>
 
           <SignInButton mode="modal">
-            <button className="mt-6 px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">
+            <button className="btn btn-primary btn-lg mt-2">
               Login
             </button>
           </SignInButton>
-
         </div>
       </div>
     );

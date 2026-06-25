@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useUser } from "@clerk/react";
+import { useUser, SignInButton } from "@clerk/react";
 import '../../css/Profile.css'
 import axios from "axios";
 
@@ -53,11 +53,44 @@ function Profile() {
 
     }, [user?.id]);
 
+    if (!user) {
+        return (
+            <div
+                className="d-flex justify-content-center align-items-center"
+                style={{
+                    minHeight: "100vh",
+                    background: "#f8fafc",
+                }}
+            >
+                <div
+                    className="card shadow-lg border-0 text-center p-4"
+                    style={{
+                        maxWidth: "450px",
+                        width: "90%",
+                        borderRadius: "20px",
+                    }}
+                >
+                    <div style={{ fontSize: "4rem" }}>
+                        🔒
+                    </div>
 
+                    <h2 className="fw-bold mt-3">
+                        Login Required
+                    </h2>
 
+                    <p className="text-muted">
+                        Please sign in to view lost item
+                        reports and access chat rooms.
+                    </p>
 
-    if (!isSignedIn) {
-        return <h1>Please Login</h1>;
+                    <SignInButton mode="modal">
+                        <button className="btn btn-primary btn-lg mt-2">
+                            Login
+                        </button>
+                    </SignInButton>
+                </div>
+            </div>
+        );
     }
 
     const email = user.primaryEmailAddress?.emailAddress;

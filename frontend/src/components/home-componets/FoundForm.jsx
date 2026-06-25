@@ -1,10 +1,52 @@
 import "../../css/FoundForm.css";
 import axios from "axios";
-import { useUser } from "@clerk/react";
+import { useUser, SignInButton } from "@clerk/react";
 import { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function FoundForm() {
   const { user } = useUser();
+
+  if (!user) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{
+          minHeight: "100vh",
+          background: "#f8fafc",
+        }}
+      >
+        <div
+          className="card shadow-lg border-0 text-center p-4"
+          style={{
+            maxWidth: "450px",
+            width: "90%",
+            borderRadius: "20px",
+          }}
+        >
+          <div style={{ fontSize: "4rem" }}>
+            🔒
+          </div>
+
+          <h2 className="fw-bold mt-3">
+            Login Required
+          </h2>
+
+          <p className="text-muted">
+            Please sign in to view lost item
+            reports and access chat rooms.
+          </p>
+
+          <SignInButton mode="modal">
+            <button className="btn btn-primary btn-lg mt-2">
+              Login
+            </button>
+          </SignInButton>
+        </div>
+      </div>
+    );
+  }
 
   const [formData, setFormData] = useState({
     itemName: "",
@@ -37,11 +79,6 @@ function FoundForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!user) {
-      alert("Please login first");
-      return;
-    }
-
     if (selectedFiles.length < 3) {
       alert("Please upload at least 3 images.");
       return;
@@ -72,7 +109,15 @@ function FoundForm() {
       );
 
       if (response.data.success) {
-        alert("Found item reported successfully!");
+
+        toast.success("Lost item reported successfully!", {
+          position: "top-center",
+          autoClose: 4000, // Closes after 4 seconds
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          theme: "light",
+        });
         setFormData({
           itemName: "",
           category: "",
@@ -83,7 +128,14 @@ function FoundForm() {
       }
     } catch (error) {
       console.error(error);
-      alert(error.response?.data?.message || "Failed to submit report");
+      toast.error(error.response?.data?.message || "Failed to submit report...Please try again",
+        {position: "top-center",
+        autoClose: 4000, // Closes after 4 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        theme: "light",}
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -91,6 +143,7 @@ function FoundForm() {
 
   return (
     <div className="found-form-wrapper">
+      <ToastContainer />
       <div className="form-card">
         <h1 className="form-header">Found Something?</h1>
 
