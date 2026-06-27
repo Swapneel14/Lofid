@@ -101,9 +101,45 @@ export const getFoundItems = async (req, res) => {
 }
 
 export const getAllFoundItems = async (req, res) => {
-    // console.log("running getAllFoundItem api");
     try {
-        const foundItems = await FoundItem.find().sort({ createdAt: -1 });
+        const { search } = req.query;
+
+        let query = {};
+
+        if (search) {
+            query = {
+                $or: [
+                    {
+                        itemName: {
+                            $regex: search,
+                            $options: "i",
+                        },
+                    },
+                    {
+                        category: {
+                            $regex: search,
+                            $options: "i",
+                        },
+                    },
+                    {
+                        description: {
+                            $regex: search,
+                            $options: "i",
+                        },
+                    },
+                    {
+                        LocationFound: {
+                            $regex: search,
+                            $options: "i",
+                        },
+                    },
+                ],
+            };
+        }
+
+        const foundItems = await FoundItem.find(query)
+            .populate("userId", "name email image")
+            .sort({ createdAt: -1 });
 
         res.status(200).json({
             success: true,
@@ -112,11 +148,10 @@ export const getAllFoundItems = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Failed to fetch found items",
-            error: error.message,
+            message: error.message,
         });
     }
-}
+};
 
 export const updateFoundItem = async (req, res) => {
     try {

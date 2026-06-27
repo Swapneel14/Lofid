@@ -229,7 +229,42 @@ export const createLostItem = async (req, res) => {
 
 export const getAllLostItems = async (req, res) => {
     try {
-        const lostItems = await LostItem.find()
+        const { search } = req.query;
+
+        let query = {};
+
+        if (search) {
+            query = {
+                $or: [
+                    {
+                        itemName: {
+                            $regex: search,
+                            $options: "i",
+                        },
+                    },
+                    {
+                        category: {
+                            $regex: search,
+                            $options: "i",
+                        },
+                    },
+                    {
+                        description: {
+                            $regex: search,
+                            $options: "i",
+                        },
+                    },
+                    {
+                        lostLocation: {
+                            $regex: search,
+                            $options: "i",
+                        },
+                    },
+                ],
+            };
+        }
+
+        const lostItems = await LostItem.find(query)
             .populate("userId", "name email image")
             .sort({ createdAt: -1 });
 

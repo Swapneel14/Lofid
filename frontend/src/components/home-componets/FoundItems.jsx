@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import FoundItemCard from "../found-item-components/FoundItemCard";
 import ChatRoom from "./ChatRoom";
 import { useUser, SignInButton } from "@clerk/react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const FoundItems = () => {
   const { user } = useUser();
@@ -10,10 +11,16 @@ const FoundItems = () => {
   const [error, setError] = useState("");
   const [selectedRoom, setSelectedRoom] = useState(null);
 
+  const [searchParams] = useSearchParams();
+
+  const search = searchParams.get("search") || "";
+
   useEffect(() => {
     const fetchFoundItems = async () => {
       try {
-        const res = await fetch("http://localhost:6769/api/item/get-all-found-items");
+        const res = await fetch(
+          `http://localhost:6769/api/item/get-all-found-items?search=${search}`,
+        );
 
         if (!res.ok) {
           throw new Error("Failed to fetch found items");
@@ -29,36 +36,22 @@ const FoundItems = () => {
     };
 
     fetchFoundItems();
-  }, []);
+  }, [search]);
 
   if (!user) {
     return (
-      <div
-        className="d-flex justify-content-center align-items-center"
-        style={{
-          minHeight: "100vh",
-          background: "#f8fafc",
-        }}
-      >
-        <div
-          className="card shadow-lg border-0 text-center p-4"
-          style={{
-            maxWidth: "450px",
-            width: "90%",
-            borderRadius: "20px",
-          }}
-        >
-          <div style={{ fontSize: "4rem" }}>
-            🔒
+      <div className="min-h-screen flex items-center justify-center bg-slate-100 px-4">
+        <div className="bg-white rounded-4xl shadow-xl p-8 max-w-md w-full text-center">
+          <div className="mb-4">
+            <div className="w-20 h-20 mx-auto rounded-full bg-blue-100 flex items-center justify-center text-3xl">
+              🔒
+            </div>
           </div>
 
-          <h2 className="fw-bold mt-3">
-            Login Required
-          </h2>
+          <h2 className="text-2xl font-bold text-slate-900">Login Required</h2>
 
-          <p className="text-muted">
-            Please sign in to view lost item
-            reports and access chat rooms.
+          <p className="text-slate-600 mt-3">
+            Please sign in to view found items and participate in chats.
           </p>
 
           <SignInButton mode="modal">
@@ -102,7 +95,11 @@ const FoundItems = () => {
         {foundItems.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {foundItems.map((item) => (
-              <FoundItemCard key={item._id} item={item} openChat={setSelectedRoom} />
+              <FoundItemCard
+                key={item._id}
+                item={item}
+                openChat={setSelectedRoom}
+              />
             ))}
           </div>
         ) : (
@@ -120,10 +117,7 @@ const FoundItems = () => {
       </section>
 
       {selectedRoom && (
-        <ChatRoom
-          roomId={selectedRoom}
-          onClose={() => setSelectedRoom(null)}
-        />
+        <ChatRoom roomId={selectedRoom} onClose={() => setSelectedRoom(null)} />
       )}
     </main>
   );
