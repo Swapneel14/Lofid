@@ -55,7 +55,7 @@ const FoundItems = () => {
           </p>
 
           <SignInButton mode="modal">
-            <button className="mt-6 px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">
+            <button className="btn btn-primary btn-lg mt-2">
               Login
             </button>
           </SignInButton>
