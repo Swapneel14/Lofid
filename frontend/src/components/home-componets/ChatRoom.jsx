@@ -2,326 +2,379 @@ import { X } from "lucide-react";
 import React, { useState } from "react";
 import socket from "../../sockets/socket";
 import { useEffect } from "react";
-import { useUser } from '@clerk/react'
+import {  useUser } from '@clerk/react'
 import { useRef } from "react";
 import "../../css/Chatroom.css"
+import axios from "axios";
+import { useAuth } from "@clerk/react";
 
 
 
 function ChatRoom({ roomId, onClose }) {
-    const [message, setMessage] = useState("");
-    const [messages, setMessages] = useState([]);
-    const bottomRef = useRef(null);
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [reporting, setReporting] = useState(false);
 
+  const bottomRef = useRef(null);
 
-    const { user } = useUser();
+  const { getToken } = useAuth();
+  const { user } = useUser();
 
-    useEffect(() => {
+  useEffect(() => {
 
-        if (!socket.connected) {
-            socket.connect();
-        }
+    if (!socket.connected) {
+      socket.connect();
+    }
 
-        socket.on("connect", () => {
-            console.log(
-                "Socket Connected:",
-                socket.id
-            );
-        });
+    socket.on("connect", () => {
+      console.log(
+        "Socket Connected:",
+        socket.id
+      );
+    });
 
-        return () => {
-            socket.off("connect");
-        };
+    return () => {
+      socket.off("connect");
+    };
 
-    }, []);
+  }, []);
 
   const handleSend = () => {
     if (!message.trim() || !user) return;
 
     socket.emit("send-message", {
-        roomId,
-        senderId: user.id,
-        senderName: user.fullName,
-        message,
+      roomId,
+      senderId: user.id,
+      senderName: user.fullName,
+      message,
     });
 
     setMessage("");
-};
-    useEffect(() => {
-        bottomRef.current?.scrollIntoView({
-            behavior: "smooth",
-        });
-    }, [messages]);
+  };
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [messages]);
 
-    useEffect(() => {
+  useEffect(() => {
 
-        const handleReceive = (msg) => {
+    const handleReceive = (msg) => {
 
-            if (msg.roomId !== roomId) return;
+      if (msg.roomId !== roomId) return;
 
-            setMessages(prev => [
-                ...prev,
-                msg
-            ]);
-        };
+      setMessages(prev => [
+        ...prev,
+        msg
+      ]);
+    };
 
-        socket.on("receive-message", handleReceive);
+    socket.on("receive-message", handleReceive);
 
-        return () => {
-            socket.off(
-                "receive-message",
-                handleReceive
-            );
-        };
+    return () => {
+      socket.off(
+        "receive-message",
+        handleReceive
+      );
+    };
 
-    }, [roomId]);
+  }, [roomId]);
 
-    useEffect(() => {
-        if (!roomId || !user) return;
+  useEffect(() => {
+    if (!roomId || !user) return;
 
-        socket.emit("join-room", {
-            roomId,
-            userName: user.fullName,
-        });
+    socket.emit("join-room", {
+      roomId,
+      userName: user.fullName,
+    });
 
-        console.log("Joined room:", roomId);
+    console.log("Joined room:", roomId);
 
-        return () => {
-            socket.emit("leave-room", {
-                roomId,
-                userName: user.fullName,
-            });
-        };
-    },[roomId]);
+    return () => {
+      socket.emit("leave-room", {
+        roomId,
+        userName: user.fullName,
+      });
+    };
+  }, [roomId]);
 
-    useEffect(() => {
+  useEffect(() => {
 
-        const handleUserJoined = (data) => {
-            console.log("USER JOINED EVENT", data);
+    const handleUserJoined = (data) => {
+      console.log("USER JOINED EVENT", data);
 
-            if (data.roomId !== roomId) return;
+      if (data.roomId !== roomId) return;
 
-            setMessages(prev => [
-                ...prev,
-                {
-                    type: "system",
-                    text: `${data.userName} joined the chat`,
-                }
-            ]);
-        };
+      setMessages(prev => [
+        ...prev,
+        {
+          type: "system",
+          text: `${data.userName} joined the chat`,
+        }
+      ]);
+    };
 
-        socket.on(
-            "user-joined",
-            handleUserJoined
+    socket.on(
+      "user-joined",
+      handleUserJoined
+    );
+
+    return () => {
+      socket.off(
+        "user-joined",
+        handleUserJoined
+      );
+    };
+
+  }, [roomId]);
+
+  useEffect(() => {
+
+    const handleUserLeft = (data) => {
+
+      if (data.roomId !== roomId) return;
+
+      setMessages(prev => [
+        ...prev,
+        {
+          type: "system",
+          text: `${data.userName} left the chat`,
+        }
+      ]);
+    };
+
+    socket.on(
+      "user-left",
+      handleUserLeft
+    );
+
+    return () => {
+      socket.off(
+        "user-left",
+        handleUserLeft
+      );
+    };
+
+  }, [roomId]);
+
+  useEffect(() => {
+
+    const fetchMessages = async () => {
+
+      try {
+
+        const res = await fetch(
+          `http://localhost:5000/api/messages/${roomId}`
         );
 
-        return () => {
-            socket.off(
-                "user-joined",
-                handleUserJoined
-            );
-        };
+        const data = await res.json();
 
-    }, [roomId]);
+        setMessages(data.messages || []);
 
-    useEffect(() => {
+      } catch (err) {
 
-        const handleUserLeft = (data) => {
+        console.error(err);
 
-            if (data.roomId !== roomId) return;
+      }
 
-            setMessages(prev => [
-                ...prev,
-                {
-                    type: "system",
-                    text: `${data.userName} left the chat`,
-                }
-            ]);
-        };
+    };
 
-        socket.on(
-            "user-left",
-            handleUserLeft
-        );
+    if (roomId) {
+      fetchMessages();
+    }
 
-        return () => {
-            socket.off(
-                "user-left",
-                handleUserLeft
-            );
-        };
+  }, [roomId]);
 
-    }, [roomId]);
 
-    useEffect(() => {
+  useEffect(() => {
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
-        const fetchMessages = async () => {
 
-            try {
+  const handleReport = async (msg) => {
+    console.log(msg);
+      console.log("Report clicked");
 
-                const res = await fetch(
-                    `http://localhost:5000/api/messages/${roomId}`
-                );
+       if (reporting) return;
 
-                const data = await res.json();
+  setReporting(true);
 
-                setMessages(data.messages || []);
 
-            } catch (err) {
+    try {
+      const token = await getToken();
+      console.log(token);
 
-                console.error(err);
-
-            }
-
-        };
-
-        if (roomId) {
-            fetchMessages();
+      await axios.post(
+        "http://localhost:6769/api/report",
+        {
+          reportedUserId : msg.senderId,
+          messageContent : msg.message,
+        },
+        {
+          headers:{
+            Authorization :`Bearer ${token}`
+          }
         }
 
-    }, [roomId]);
+      );
 
+      alert("Report Submitted");
+    } catch (e) {
+      console.log(e);
 
-    useEffect(() => {
-    return () => {
-        socket.disconnect();
-    };
-}, []);
+    }finally{
+      setReporting(false);
+    }
+  };
 
-   return (
-  <>
-    {/* Backdrop */}
-    <div
-      className="chat-backdrop"
-      onClick={onClose}
-    ></div>
+  return (
+    <>
+      {/* Backdrop */}
+      <div
+        className="chat-backdrop"
+        onClick={onClose}
+      ></div>
 
-    {/* Chat Modal */}
-    <div className="chat-modal-wrapper">
+      {/* Chat Modal */}
+      <div className="chat-modal-wrapper">
 
-      <div className="chat-modal">
+        <div className="chat-modal">
 
-        {/* Header */}
-        <div className="chat-header">
+          {/* Header */}
+          <div className="chat-header">
 
-          <div>
-            <h4 className="mb-0 fw-bold">
-              Report Chat
-            </h4>
+            <div>
+              <h4 className="mb-0 fw-bold">
+                Report Chat
+              </h4>
 
-            <small>
-              Room: {roomId}
-            </small>
+              <small>
+                Room: {roomId}
+              </small>
+            </div>
+
+            <button
+              className="btn btn-light btn-sm rounded-circle"
+              onClick={onClose}
+            >
+              <X size={18} />
+            </button>
+
           </div>
 
-          <button
-            className="btn btn-light btn-sm rounded-circle"
-            onClick={onClose}
-          >
-            <X size={18} />
-          </button>
+          {/* Messages */}
+          <div className="chat-body">
 
-        </div>
+            {messages.map((msg, index) => {
 
-        {/* Messages */}
-        <div className="chat-body">
+              if (msg.type === "system") {
+                return (
+                  <div
+                    key={index}
+                    className="system-message"
+                  >
+                    {msg.text}
+                  </div>
+                );
+              }
 
-          {messages.map((msg, index) => {
+              const isMine =
+                msg.senderId === user?.id;
 
-            if (msg.type === "system") {
               return (
                 <div
                   key={index}
-                  className="system-message"
-                >
-                  {msg.text}
-                </div>
-              );
-            }
-
-            const isMine =
-              msg.senderId === user?.id;
-
-            return (
-              <div
-                key={index}
-                className={`message-row ${
-                  isMine
+                  className={`message-row ${isMine
                     ? "mine"
                     : "other"
-                }`}
-              >
-
-                <div
-                  className={`message-bubble ${
-                    isMine
-                      ? "mine-bubble"
-                      : "other-bubble"
-                  }`}
+                    }`}
                 >
 
-                  {!isMine && (
-                    <div className="sender-name">
-                      {msg.senderName}
+                  <div
+                    className={`message-bubble ${isMine
+                      ? "mine-bubble"
+                      : "other-bubble"
+                      }`}
+                  >
+
+                    {!isMine && (
+                      <div className="sender-name">
+                        {msg.senderName}
+                      </div>
+                    )}
+
+                    <div className="message-text">
+                      {msg.message}
                     </div>
-                  )}
 
-                  <div className="message-text">
-                    {msg.message}
-                  </div>
+                    <div className="message-footer">
 
-                  <div className="message-time">
-                    {msg.createdAt &&
-                      new Date(
-                        msg.createdAt
-                      ).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
+                      <span className="message-time">
+                        {msg.createdAt &&
+                          new Date(msg.createdAt).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                      </span>
+
+                      {!isMine && (
+                        <button
+                          className="report-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleReport(msg)}}
+                        >
+                          Report
+                        </button>
+                      )}
+
+                    </div>
+
+
                   </div>
 
                 </div>
+              );
+            })}
 
-              </div>
-            );
-          })}
+            <div ref={bottomRef}></div>
 
-          <div ref={bottomRef}></div>
+          </div>
 
-        </div>
+          {/* Footer */}
+          <div className="chat-footer">
 
-        {/* Footer */}
-        <div className="chat-footer">
-
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Type a message..."
-            value={message}
-            onChange={(e) =>
-              setMessage(e.target.value)
-            }
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleSend();
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Type a message..."
+              value={message}
+              onChange={(e) =>
+                setMessage(e.target.value)
               }
-            }}
-          />
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSend();
+                }
+              }}
+            />
 
-          <button
-            className="btn btn-primary px-4"
-            onClick={handleSend}
-          >
-            Send
-          </button>
+            <button
+              className="btn btn-primary px-4"
+              onClick={handleSend}
+            >
+              Send
+            </button>
+
+          </div>
 
         </div>
 
       </div>
-
-    </div>
-  </>
-);
+    </>
+  );
 }
 
 export default ChatRoom;

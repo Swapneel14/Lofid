@@ -145,6 +145,64 @@
   border-radius: 999px;
 }
 
+.message-bubble{
+    position: relative;
+}
+
+.message-footer{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.message-time{
+    font-size:11px;
+    opacity:.75;
+    color:inherit;
+}
+
+.mine-bubble{
+    background:#2563eb;
+    color:white;
+}
+
+.mine-bubble .message-time{
+    color:rgba(255,255,255,.8);
+}
+
+.other-bubble{
+    background:white;
+    color:#111827;
+    border:1px solid #ddd;
+}
+
+.other-bubble .message-time{
+    color:#777;
+}
+
+.report-btn{
+    border: none;
+    background: transparent;
+    color: #dc3545;
+    font-size: 11px;
+    cursor: pointer;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease;
+}
+
+.message-bubble:hover .report-btn{
+    opacity: 1;
+    visibility: visible;
+}
+
+.report-btn:hover{
+    text-decoration: underline;
+}
+
 @media (max-width: 768px) {
 
   .chat-modal {
