@@ -10,6 +10,8 @@ import { clerkMiddleware } from "@clerk/express";
 import { functions, inngest } from "./inngest/index.js";
 import {serve} from 'inngest/express';
 import router from "./routes/ItemsRoutes.js";
+import adminRouter from "./routes/AdminRoutes.js";
+import reportRouter from "./routes/ReportRoutes.js";
 
 const app = express();
 const port = 6769;
@@ -32,6 +34,8 @@ app.get("/test", (req, res) => {
 
 
 app.use("/api/item", router);
+app.use("/api/admin", adminRouter);
+app.use("/api/report", reportRouter);
 
 app.use(
   "/api/inngest",

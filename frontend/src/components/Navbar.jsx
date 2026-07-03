@@ -2,17 +2,43 @@ import React from "react";
 import "../css/Navbar.css";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Show, SignUpButton, UserButton } from "@clerk/react";
+import { Show, SignUpButton, UserButton, useAuth } from "@clerk/react";
+import axios from "axios";
 
 function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { getToken } = useAuth();
 
   const [search, setSearch] = useState("");
+  const [isAdmin, setisAdmin] = useState("false");
 
   const showSearch =
     location.pathname === "/home/all-lost-items" ||
     location.pathname === "/home/foundItems";
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      try {
+        const token = await getToken();
+
+        const res = await axios.get(
+          "http://localhost:6769/api/admin/check",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+
+        setisAdmin(res.data.isAdmin);
+      } catch (e) {
+        setisAdmin(false);
+      }
+    }
+
+    checkAdmin();
+  }, [])
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -50,6 +76,12 @@ function Navbar() {
 
           <li>
             <Link to="/">About</Link>
+          </li>
+
+          <li>
+            {isAdmin && (
+              <Link to="/admin">Admin Dashboard</Link>
+            )}
           </li>
 
           <li className="auth-section">
