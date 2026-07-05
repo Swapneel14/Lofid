@@ -12,6 +12,10 @@ import {serve} from 'inngest/express';
 import router from "./routes/ItemsRoutes.js";
 import adminRouter from "./routes/AdminRoutes.js";
 import reportRouter from "./routes/ReportRoutes.js";
+import authRouter from "./routes/RegisterRoute.js";
+import dns from 'dns';
+
+dns.setServers(["1.1.1.1","0.0.0.0"]);
 
 const app = express();
 const port = 6769;
@@ -36,6 +40,8 @@ app.get("/test", (req, res) => {
 app.use("/api/item", router);
 app.use("/api/admin", adminRouter);
 app.use("/api/report", reportRouter);
+app.use("/api/auth", authRouter);
+
 
 app.use(
   "/api/inngest",

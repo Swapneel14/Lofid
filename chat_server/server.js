@@ -1,4 +1,5 @@
 const express = require("express");
+const dns = require("dns");
 
 const http = require("http");
 const mongoose = require("mongoose");
@@ -9,6 +10,8 @@ require("dotenv").config();
 const Message = require('./models/Message.js');
 const messageRoutes =
   require("./routes/messageRoutes");
+
+  dns.setServers(["1.1.1.1","0.0.0.0"]);
 
 
 

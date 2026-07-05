@@ -1,25 +1,55 @@
-import { useUser, useClerk } from "@clerk/react";
+import { useUser, useClerk, useAuth } from "@clerk/react";
 import { useEffect } from "react";
+import axios from "axios";
 
 export default function AuthGuard() {
   const { user, isLoaded, isSignedIn } = useUser();
   const { signOut } = useClerk();
+  const { getToken } = useAuth();
+
   const admin = import.meta.env.VITE_ADMIN_EMAIL;
 
   useEffect(() => {
-    if (isLoaded && isSignedIn && user) {
+    const checkUser = async () => {
+      if (!isLoaded || !isSignedIn || !user) return;
+
       const email =
         user.primaryEmailAddress?.emailAddress || "";
 
-      if (!email.endsWith("@students.iiests.ac.in")&&(email != admin)) {
-        alert(
-          "Only @students.iiests.ac.in accounts are allowed."
+      // Allow only college email or admin email
+      if (
+        !email.endsWith("@students.iiests.ac.in") &&
+        email !== admin
+      ) {
+        alert("Only @students.iiests.ac.in accounts are allowed.");
+        await signOut();
+        return;
+      }
+
+      // Check if user is banned
+      try {
+        const token = await getToken();
+
+        const res = await axios.get(
+          "http://localhost:6769/api/auth/check-ban",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
-        signOut();
+        if (res.data.banned) {
+          alert(res.data.message);
+          await signOut();
+        }
+      } catch (e) {
+        console.log(e);
       }
-    }
-  }, [isLoaded, isSignedIn, user, signOut]);
+    };
+
+    checkUser();
+  }, [isLoaded, isSignedIn, user]);
 
   return null;
 }
