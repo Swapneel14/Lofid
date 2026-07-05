@@ -14,6 +14,7 @@ import Login from './pages/Login.jsx'
 import NotFound from './pages/PageNotFound.jsx'
 import { ClerkProvider } from '@clerk/react'
 import AuthGuard from './components/AuthGuard.jsx'
+import Admin from './pages/Admin.jsx'
 
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -30,6 +31,7 @@ createRoot(document.getElementById('root')).render(
 
         <Routes>
            <Route path='/' element={<About />} />
+           <Route path='/admin' element={<Admin />} />
           <Route path='/home/*' element={<Home />} />
          
           <Route path='/register' element={<Register />} />
