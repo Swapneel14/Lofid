@@ -6,6 +6,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
+import { toast, ToastContainer } from 'react-toastify';
+import { IoOpen } from "react-icons/io5";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -23,6 +25,8 @@ function AllLostItems() {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [searchParams] = useSearchParams();
+  const [deletingItemId, setDeletingItemId] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const search = searchParams.get("search") || "";
 
@@ -44,28 +48,41 @@ function AllLostItems() {
     }
   };
 
-  const handleMarkFound = async (itemId) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to mark this item as found? This will delete the item.",
-    );
+  const executeDelete = async () => {
+    if (!deletingItemId) return;
 
-    if (!confirmDelete) return;
+    setIsDeleting(true); // Disable button and show spinner
 
     try {
       const response = await axios.delete(
-        `http://localhost:6769/api/item/delete-lost-item/${itemId}`,
+        `http://localhost:6769/api/item/delete-lost-item/${deletingItemId}`
       );
 
       if (response.data.success) {
         setLostItems((prevItems) =>
-          prevItems.filter((item) => item._id !== itemId),
+          prevItems.filter((item) => item._id !== deletingItemId)
         );
 
-        alert("Item marked as found and report deleted.");
+        setTimeout(() => {
+          toast.success("Item marked as found and report deleted.", {
+            position: "top-center",
+            autoClose: 3000,
+            theme: "light",
+          });
+        }, 100);
       }
     } catch (error) {
       console.error(error);
-      alert("Failed to delete report.");
+      setTimeout(() => {
+        toast.error("Failed to delete report.", {
+          position: "top-center",
+          autoClose: 3000,
+          theme: "light",
+        });
+      }, 100);
+    } finally {
+      setIsDeleting(false); 
+      setDeletingItemId(null); 
     }
   };
 
@@ -109,6 +126,7 @@ function AllLostItems() {
   return (
     <>
       <div className="lost-items-page">
+        <ToastContainer />
         <div className="lost-items-header">
           <h1>Lost & Missing Reports</h1>
           <p>Browse all reported lost items across campus</p>
@@ -199,26 +217,29 @@ function AllLostItems() {
                 </div>
 
                 <div
-                  className={`item-actions ${
-                    user?.id === item.userId?._id
-                      ? "two-buttons"
-                      : "single-button"
-                  }`}
+                  className={`item-actions ${user?.id === item.userId?._id
+                    ? "two-buttons"
+                    : "single-button"
+                    }`}
                 >
                   {user?.id === item.userId?._id && (
                     <button
                       className="mark-found-btn"
-                      onClick={() => handleMarkFound(item._id)}
+                      onClick={() => setDeletingItemId(item._id)}
                     >
                       Mark as Found
                     </button>
                   )}
 
                   <button
-                    className="chat-btn"
+                    type="button"
                     onClick={() => setSelectedRoom(`lost-${item._id}`)}
+                    className="group flex w-full items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-emerald-600 focus:outline-none focus:ring-4 focus:ring-emerald-200"
                   >
-                    Open Chat
+                    Chat Here
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">
+                      <IoOpen />
+                    </span>
                   </button>
                 </div>
               </div>
@@ -229,6 +250,51 @@ function AllLostItems() {
 
       {selectedRoom && (
         <ChatRoom roomId={selectedRoom} onClose={() => setSelectedRoom(null)} />
+      )}
+
+      {deletingItemId && (
+        <div className="fixed! inset-0! z-9999! flex! items-center! justify-center! bg-black/40 backdrop-blur-sm! p-5! px-4! transition-opacity!">
+          <div className="bg-white! rounded-2xl! shadow-2xl! w-full! max-w-md! overflow-hidden! animate-in! fade-in! zoom-in-95! duration-200!">
+            <div className="p-6!">
+              <h3 className="text-xl! font-bold! text-slate-800! mb-2!">
+                Mark Item as Found?
+              </h3>
+              <p className="text-slate-600! text-sm!">
+                Are you sure you want to mark this item as found? This will permanently delete the report from the system.
+              </p>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="bg-slate-50 px-6! py-4! flex justify-end gap-3! border-t! border-slate-100!">
+              <button
+                onClick={() => setDeletingItemId(null)}
+                disabled={isDeleting}
+                className="px-4! py-2! text-sm! font-medium! text-slate-700! bg-white border! border-slate-400! rounded-lg! hover:bg-slate-200! transition-colors! focus:outline-none! focus:ring-2! focus:ring-slate-200! disabled:opacity-50! disabled:cursor-not-allowed!"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={executeDelete}
+                disabled={isDeleting}
+                className="flex! items-center! justify-center! px-4! py-2! text-sm! font-medium! text-white bg-blue-600 rounded-lg! hover:bg-blue-700! transition-colors! focus:outline-none! focus:ring-2! focus:ring-blue-500! disabled:bg-blue-400! disabled:cursor-not-allowed! min-w-35!!"
+              >
+                {isDeleting ? (
+                  <>
+                    {/* Tailwind Loading Spinner */}
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Deleting...
+                  </>
+                ) : (
+                  "Yes, Mark Found"
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );

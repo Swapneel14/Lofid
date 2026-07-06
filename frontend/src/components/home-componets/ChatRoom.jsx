@@ -2,11 +2,12 @@ import { X } from "lucide-react";
 import React, { useState } from "react";
 import socket from "../../sockets/socket";
 import { useEffect } from "react";
-import {  useUser } from '@clerk/react'
+import { useUser } from '@clerk/react'
 import { useRef } from "react";
 import "../../css/Chatroom.css"
 import axios from "axios";
 import { useAuth } from "@clerk/react";
+import { toast, ToastContainer } from "react-toastify";
 
 
 
@@ -195,11 +196,11 @@ function ChatRoom({ roomId, onClose }) {
 
   const handleReport = async (msg) => {
     console.log(msg);
-      console.log("Report clicked");
+    console.log("Report clicked");
 
-       if (reporting) return;
+    if (reporting) return;
 
-  setReporting(true);
+    setReporting(true);
 
 
     try {
@@ -209,28 +210,33 @@ function ChatRoom({ roomId, onClose }) {
       await axios.post(
         "http://localhost:6769/api/report",
         {
-          reportedUserId : msg.senderId,
-          messageContent : msg.message,
+          reportedUserId: msg.senderId,
+          messageContent: msg.message,
         },
         {
-          headers:{
-            Authorization :`Bearer ${token}`
+          headers: {
+            Authorization: `Bearer ${token}`
           }
         }
 
       );
 
-      alert("Report Submitted");
+      toast.success("Report Submitted successfully!", {
+        position: "top-center",
+        autoClose: 3000,
+        theme: "light",
+      });
     } catch (e) {
       console.log(e);
 
-    }finally{
+    } finally {
       setReporting(false);
     }
   };
 
   return (
     <>
+      <ToastContainer />
       {/* Backdrop */}
       <div
         className="chat-backdrop"
@@ -324,7 +330,8 @@ function ChatRoom({ roomId, onClose }) {
                           className="report-btn"
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleReport(msg)}}
+                            handleReport(msg)
+                          }}
                         >
                           Report
                         </button>

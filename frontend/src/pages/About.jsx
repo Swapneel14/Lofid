@@ -29,7 +29,7 @@ function About() {
               View Repository
             </a>
 
-            <button className="secondary-btn" onClick={() => navigate("/")}>
+            <button className="secondary-btn" onClick={() => navigate("home")}>
               Explore Platform
             </button>
           </div>
