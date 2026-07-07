@@ -1,6 +1,8 @@
 import { useUser, useClerk, useAuth } from "@clerk/react";
 import { useEffect } from "react";
 import axios from "axios";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function AuthGuard() {
   const { user, isLoaded, isSignedIn } = useUser();
@@ -21,7 +23,7 @@ export default function AuthGuard() {
         !email.endsWith("@students.iiests.ac.in") &&
         email !== admin
       ) {
-        alert("Only @students.iiests.ac.in accounts are allowed.");
+        sessionStorage.setItem("auth_error", "Only @students.iiests.ac.in accounts are allowed");
         await signOut();
         return;
       }
@@ -40,7 +42,7 @@ export default function AuthGuard() {
         );
 
         if (res.data.banned) {
-          alert(res.data.message);
+          sessionStorage.setItem("auth_error", res.data.message);
           await signOut();
         }
       } catch (e) {

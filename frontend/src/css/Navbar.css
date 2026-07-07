@@ -12,6 +12,8 @@
 
     justify-content:space-between;
 
+    flex-grow: 1;
+
     align-items:center;
 
     padding:0.75rem 2rem;
@@ -35,6 +37,24 @@
 
     transition:0.35s ease;
 }
+
+@media (max-width: 995px) and (min-width: 639px) {
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        width: 100%; /* Forces the navbar to take full width */
+    }
+    
+    /* Ensure the links container itself isn't restricted */
+    .navbar-links {
+        display: flex;
+        justify-content: flex-end;
+        flex-grow: 1; 
+    }
+}
+
+
+
 
 .navbar:hover{
 
@@ -100,6 +120,8 @@
     display:flex;
 
     align-items:center;
+
+    /* justify-content: center; */
 
     gap:1.25rem;
 

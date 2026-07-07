@@ -2,6 +2,7 @@ import React from "react";
 // Import Swiper React components and modules
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
+import { IoOpen } from "react-icons/io5";
 
 // Import Swiper styles
 import "swiper/css";
@@ -110,9 +111,9 @@ const FoundItemCard = ({ item ,  openChat }) => {
                      onClick={() => openChat(item._id)}
                     className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-emerald-600 focus:outline-none focus:ring-4 focus:ring-emerald-200"
                 >
-                    View Details
+                    Open Chat Room
                     <span className="transition-transform duration-300 group-hover:translate-x-1">
-                        →
+                        <IoOpen />
                     </span>
                 </button>
             </div>
