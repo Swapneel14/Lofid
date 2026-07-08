@@ -29,25 +29,25 @@ export default function AuthGuard() {
       }
 
       // Check if user is banned
-      try {
-        const token = await getToken();
+      // try {
+      //   const token = await getToken();
 
-        const res = await axios.get(
-          "http://localhost:6769/api/auth/check-ban",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+      //   const res = await axios.get(
+      //     "http://localhost:6769/api/auth/check-ban",
+      //     {
+      //       headers: {
+      //         Authorization: `Bearer ${token}`,
+      //       },
+      //     }
+      //   );
 
-        if (res.data.banned) {
-          sessionStorage.setItem("auth_error", res.data.message);
-          await signOut();
-        }
-      } catch (e) {
-        console.log(e);
-      }
+      //   if (res.data.banned) {
+      //     sessionStorage.setItem("auth_error", res.data.message);
+      //     await signOut();
+      //   }
+      // } catch (e) {
+      //   console.log(e);
+      // }
     };
 
     checkUser();

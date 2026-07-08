@@ -19,11 +19,32 @@ function ChatRoom({ roomId, onClose }) {
   const [reporting, setReporting] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
   const [reportMsg, setReportMsg] = useState(null);
+  const [isBanned, setIsBanned] = useState(false);
 
   const bottomRef = useRef(null);
 
   const { getToken } = useAuth();
   const { user } = useUser();
+
+  useEffect(() => {
+    const handleSystemError = (data) => {
+      toast.error(data.message, {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "light",
+      });
+
+      if (data.message.includes("restricted") || data.message.includes("suspended")) {
+        setIsBanned(true);
+      }
+    };
+
+    socket.on("system-error", handleSystemError);
+
+    return () => {
+      socket.off("system-error", handleSystemError);
+    };
+  }, []);
 
   useEffect(() => {
 
@@ -362,13 +383,14 @@ function ChatRoom({ roomId, onClose }) {
             <input
               type="text"
               className="form-control"
-              placeholder="Type a message..."
+              placeholder={isBanned ? "Your chat privileges have been suspended." : "Type a message..."}
               value={message}
               onChange={(e) =>
                 setMessage(e.target.value)
               }
+              disabled={isBanned}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
+                if (e.key === "Enter" && !isBanned) {
                   handleSend();
                 }
               }}
@@ -424,8 +446,12 @@ function ChatRoom({ roomId, onClose }) {
             )}
 
             <button
-              className="btn btn-primary px-4"
+              className={`px-4! py-2! font-medium! rounded-lg! transition-colors! focus:outline-none! disabled:cursor-not-allowed! ${isBanned
+                  ? "bg-slate-200! text-slate-500! border! border-slate-300!"
+                  : "bg-blue-600! text-white! hover:bg-blue-700! shadow-sm!"
+                }`}
               onClick={handleSend}
+              disabled={isBanned}
             >
               Send
             </button>
