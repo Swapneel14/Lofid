@@ -1,12 +1,12 @@
-import {getAuth} from "@clerk/express";
+import { getAuth } from "@clerk/express";
 import Banneduser from "../models/Banneduser.js";
 
-export const checkBan = async(req,res)=>{
-    try{
-     
-        const {userId} = getAuth(req);
+export const checkBan = async (req, res) => {
+  try {
 
-        if (!userId) {
+    const { userId } = getAuth(req);
+
+    if (!userId) {
       return res.status(401).json({
         message: "Unauthorized",
       });
@@ -24,16 +24,16 @@ export const checkBan = async(req,res)=>{
       });
     }
 
-     res.json({
+    res.json({
       banned: false,
     });
-      
 
-    }catch(err){
-      console.log(e);
+
+  } catch (err) {
+    console.log(e);
 
     res.status(500).json({
       message: "Internal Server Error",
     });
-    }
+  }
 }
