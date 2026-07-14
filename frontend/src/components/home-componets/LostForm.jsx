@@ -28,6 +28,8 @@ function LostForm() {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const api = import.meta.env.VITE_BACKEND_URL;
+
   useEffect(() => {
     if (itemId) {
       fetchItem();
@@ -77,7 +79,7 @@ function LostForm() {
   const fetchItem = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:6769/api/item/lost-item/${itemId}`,
+        `${api}/api/item/lost-item/${itemId}`,
       );
 
       const item = response.data.lostItem;
@@ -130,7 +132,7 @@ function LostForm() {
 
       if (isEditMode) {
         response = await axios.put(
-          `http://localhost:6769/api/item/update-lost-item/${itemId}`,
+         `${api}/api/item/update-lost-item/${itemId}`,
           data,
           {
             headers: {
@@ -143,7 +145,7 @@ function LostForm() {
         navigate("/all-lost-items");
       } else {
         response = await axios.post(
-          "http://localhost:6769/api/item/create-lost-item",
+          `${api}/api/item/create-lost-item`,
           data,
           {
             headers: {

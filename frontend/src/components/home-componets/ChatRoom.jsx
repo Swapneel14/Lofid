@@ -190,7 +190,7 @@ function ChatRoom({ roomId, onClose }) {
       try {
 
         const res = await fetch(
-          `http://localhost:5000/api/messages/${roomId}`
+          `${import.meta.env.VITE_CHAT_SERVER_URL}/api/messages/${roomId}`
         );
 
         const data = await res.json();
@@ -233,7 +233,7 @@ function ChatRoom({ roomId, onClose }) {
       console.log(token);
 
       await axios.post(
-        "http://localhost:6769/api/report",
+        `${import.meta.env.VITE_BACKEND_URL}/api/report`,
         {
           reportedUserId: reportMsg.senderId,
           messageContent: reportMsg.message,
@@ -447,8 +447,8 @@ function ChatRoom({ roomId, onClose }) {
 
             <button
               className={`px-4! py-2! font-medium! rounded-lg! transition-colors! focus:outline-none! disabled:cursor-not-allowed! ${isBanned
-                  ? "bg-slate-200! text-slate-500! border! border-slate-300!"
-                  : "bg-blue-600! text-white! hover:bg-blue-700! shadow-sm!"
+                ? "bg-slate-200! text-slate-500! border! border-slate-300!"
+                : "bg-blue-600! text-white! hover:bg-blue-700! shadow-sm!"
                 }`}
               onClick={handleSend}
               disabled={isBanned}

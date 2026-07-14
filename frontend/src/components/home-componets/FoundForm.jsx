@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function FoundForm() {
   const { user } = useUser();
+  const api = import.meta.env.VITE_BACKEND_URL;
 
   if (!user) {
     return (
@@ -99,7 +100,7 @@ function FoundForm() {
 
     try {
       const response = await axios.post(
-        "http://localhost:6769/api/item/create-found-item",
+        `${api}/api/item/create-found-item`,
         data,
         {
           headers: {
@@ -110,7 +111,7 @@ function FoundForm() {
 
       if (response.data.success) {
 
-        toast.success("Lost item reported successfully!", {
+        toast.success("Found item reported successfully!", {
           position: "top-center",
           autoClose: 4000, // Closes after 4 seconds
           hideProgressBar: false,

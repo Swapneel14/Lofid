@@ -21,7 +21,9 @@ export default function Dashboard() {
             setLoading(true);
             setError(null);
             try {
-                const response = await fetch(`http://localhost:6769/api/item/get-all-items/${user.id}`);
+                const response = await fetch(
+                    `${import.meta.env.VITE_BACKEND_URL}/api/item/get-all-items/${user.id}`
+                );
                 const result = await response.json();
 
                 if (result.success) {

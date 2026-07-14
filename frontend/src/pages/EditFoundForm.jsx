@@ -26,7 +26,7 @@ function EditFoundForm() {
   const fetchItem = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:6769/api/item/found-item/${itemId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/item/found-item/${itemId}`
       );
 
       const item = response.data.foundItem;
@@ -87,13 +87,13 @@ function EditFoundForm() {
 
     try {
       const response = await axios.put(
-        `http://localhost:6769/api/item/update-found-item/${itemId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/item/update-found-item/${itemId}`,
         data,
         {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        },
+        }
       );
 
       if (response.data.success) {

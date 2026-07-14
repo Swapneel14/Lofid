@@ -28,6 +28,10 @@ app.use(
   messageRoutes
 );
 
+app.get("/", (req, res) => {
+  res.status(200).send("Chat Server is Running 🚀");
+});
+
 const server = http.createServer(app);
 
 const io = new Server(server, {

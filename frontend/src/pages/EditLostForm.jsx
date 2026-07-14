@@ -35,7 +35,7 @@ function LostForm() {
   const fetchItem = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:6769/api/item/lost-item/${itemId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/item/lost-item/${itemId}`
       );
 
       const item = response.data.lostItem;
@@ -103,19 +103,19 @@ function LostForm() {
 
       if (isEditMode) {
         response = await axios.put(
-          `http://localhost:6769/api/item/update-lost-item/${itemId}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/item/update-lost-item/${itemId}`,
           data,
           {
             headers: {
               "Content-Type": "multipart/form-data",
             },
-          },
+          }
         );
 
         navigate("/");
       } else {
         response = await axios.post(
-          "http://localhost:6769/api/item/create-lost-item",
+          `${import.meta.env.VITE_BACKEND_URL}/api/item/create-lost-item`,
           data,
           {
             headers: {

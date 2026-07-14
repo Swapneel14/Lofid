@@ -8,6 +8,7 @@ import { TfiMenuAlt } from "react-icons/tfi";
 import { RiCloseLargeLine } from "react-icons/ri";
 
 function Navbar() {
+  const api = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const location = useLocation();
   const { getToken } = useAuth();
@@ -26,7 +27,7 @@ function Navbar() {
         const token = await getToken();
 
         const res = await axios.get(
-          "http://localhost:6769/api/admin/check",
+          `${api}/api/admin/check`,
           {
             headers: {
               Authorization: `Bearer ${token}`
