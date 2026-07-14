@@ -6,8 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Home from './pages/home.jsx'
 import About from './pages/About.jsx'
-import Register from './pages/Register.jsx'
-import Login from './pages/Login.jsx'
+
 import Admin from './pages/Admin.jsx'
 import NotFound from './pages/PageNotFound.jsx'
 import Navbar from './components/Navbar.jsx'
@@ -49,8 +48,8 @@ function App() {
         <Route path='/' element={<About />} />
         <Route path='/admin' element={<Admin />} />
         <Route path='/home/*' element={<Home />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/login' element={<Login />} />
+       
+        
         <Route path="*" element={<NotFound />} />
       </Routes>
 
