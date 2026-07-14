@@ -11,6 +11,7 @@ function Profile() {
 
     const [lostReports, setLostReports] = useState([]);
     const [foundReports, setFoundReports] = useState([]);
+    const API_URL = import.meta.env.VITE_BACKEND_URL;
 
     useEffect(() => {
 
@@ -21,11 +22,11 @@ function Profile() {
                 const [lostRes, foundRes] = await Promise.all([
 
                     axios.get(
-                        `http://localhost:6769/api/item/get-recent-lost/${user.id}`
+                        `${import.meta.env.VITE_BACKEND_URL}/api/item/get-recent-lost/${user.id}`
                     ),
 
                     axios.get(
-                        `http://localhost:6769/api/item/get-recent-found/${user.id}`
+                        `${import.meta.env.VITE_BACKEND_URL}/api/item/get-recent-found/${user.id}`
                     )
 
                 ]);

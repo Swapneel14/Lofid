@@ -14,12 +14,13 @@ const FoundItems = () => {
   const [searchParams] = useSearchParams();
 
   const search = searchParams.get("search") || "";
+  const api = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const fetchFoundItems = async () => {
       try {
         const res = await fetch(
-          `http://localhost:6769/api/item/get-all-found-items?search=${search}`,
+          `${api}/api/item/get-all-found-items?search=${search}`,
         );
 
         if (!res.ok) {

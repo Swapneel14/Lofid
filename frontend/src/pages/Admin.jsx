@@ -23,6 +23,7 @@ function Admin() {
     const [isRefreshing, setIsRefreshing] = useState(false); // <-- Added refreshing state
     const [activeTab, setActiveTab] = useState("reports");
     const [expandedUserId, setExpandedUserId] = useState(null);
+    const api = import.meta.env.VITE_BACKEND_URL;
 
     // New State to map userId -> { name, email, batch }
     const [userDetails, setUserDetails] = useState({});
@@ -40,7 +41,7 @@ function Admin() {
             if (idsToFetch.length === 0) return;
 
             const requests = idsToFetch.map(id =>
-                axios.get(`http://localhost:6769/api/admin/user/${id}`, {
+                axios.get(`${api}/api/admin/user/${id}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 }).catch(() => null) // Catch individual errors so Promise.all doesn't fail
             );
@@ -77,7 +78,7 @@ function Admin() {
     const fetchReports = async () => {
         try {
             const token = await getToken();
-            const res = await axios.get("http://localhost:6769/api/admin/reports", {
+            const res = await axios.get(`${api}/api/admin/reports`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             const fetchedReports = res.data.reports || [];
@@ -99,7 +100,7 @@ function Admin() {
     const fetchBannedUsers = async () => {
         try {
             const token = await getToken();
-            const res = await axios.get("http://localhost:6769/api/admin/get-banned-users", {
+            const res = await axios.get(`${api}/api/admin/get-banned-users`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             const fetchedBannedUsers = res.data.bannedUsers || [];
@@ -144,7 +145,7 @@ function Admin() {
         try {
             const token = await getToken();
             await axios.post(
-                "http://localhost:6769/api/admin/report/ban",
+                `${api}/api/admin/report/ban`,
                 { reportedUserId },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -162,7 +163,7 @@ function Admin() {
         try {
             const token = await getToken();
             await axios.delete(
-                "http://localhost:6769/api/admin/report/ignore",
+                `${api}/api/admin/report/ignore`,
                 {
                     headers: { Authorization: `Bearer ${token}` },
                     data: { reportedUserId },
@@ -182,7 +183,7 @@ function Admin() {
         try {
             const token = await getToken();
             await axios.post(
-                "http://localhost:6769/api/admin/unban-user",
+                `${api}/api/admin/unban-user`,
                 { userId },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

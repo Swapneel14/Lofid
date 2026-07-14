@@ -27,6 +27,7 @@ function AllLostItems() {
   const [searchParams] = useSearchParams();
   const [deletingItemId, setDeletingItemId] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const API_URL = import.meta.env.VITE_BACKEND_URL;
 
   const search = searchParams.get("search") || "";
 
@@ -37,7 +38,7 @@ function AllLostItems() {
   const fetchLostItems = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:6769/api/item/all-lost-items?search=${search}`,
+        `${API_URL}/api/item/all-lost-items?search=${search}`
       );
 
       if (response.data.success) {
@@ -55,9 +56,8 @@ function AllLostItems() {
 
     try {
       const response = await axios.delete(
-        `http://localhost:6769/api/item/delete-lost-item/${deletingItemId}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/item/delete-lost-item/${deletingItemId}`
       );
-
       if (response.data.success) {
         setLostItems((prevItems) =>
           prevItems.filter((item) => item._id !== deletingItemId)
@@ -81,8 +81,8 @@ function AllLostItems() {
         });
       }, 100);
     } finally {
-      setIsDeleting(false); 
-      setDeletingItemId(null); 
+      setIsDeleting(false);
+      setDeletingItemId(null);
     }
   };
 
