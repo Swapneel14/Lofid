@@ -1,5 +1,5 @@
 import { getAuth } from "@clerk/express";
-import Banneduser from "../models/Banneduser.js";
+import Banneduser from "../models/BannedUser.js";
 
 export const checkBan = async (req, res) => {
   try {
