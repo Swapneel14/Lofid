@@ -46,6 +46,10 @@ io.on('connection', (socket) => {
   socket.on('join-room', (data) => {
     if (!data?.roomId) return;
     socket.join(data.roomId);
+
+    socket.roomId = data.roomId;
+  socket.userName = data.userName;
+
     console.log(
       `${data.userName} joined room ${data.roomId}`
     );
@@ -120,18 +124,28 @@ io.on('connection', (socket) => {
 
   socket.on("leave-room", (data) => {
 
-    socket.leave(data.roomId);
-
-    socket.to(data.roomId).emit("user-left", {
-      userName: data.userName,
-      roomId: data.roomId,
-    });
-
+  socket.to(data.roomId).emit("user-left", {
+    userName: data.userName,
+    roomId: data.roomId,
   });
 
+  socket.leave(data.roomId);
+
+  socket.roomId = null;
+  socket.userName = null;
+
+});
+
   socket.on('disconnect', () => {
-    console.log("User Disconnected", socket.id);
-  })
+  console.log("User Disconnected", socket.id);
+
+  if(socket.roomId){
+    socket.to(socket.roomId).emit("user-left", {
+      userName: socket.userName,
+      roomId: socket.roomId
+    });
+  }
+});
 })
 
 async function startServer() {
