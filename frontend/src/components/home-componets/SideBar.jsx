@@ -40,9 +40,7 @@ function SideBar(){
             <h5>Account</h5>
 
 
-            <NavLink to="/home/claims">
-                My Claims
-            </NavLink>
+           
 
             <NavLink to="/home/profile">
                 Profile

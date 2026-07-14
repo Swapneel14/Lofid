@@ -1,6 +1,6 @@
 import { getAuth } from "@clerk/express";
 import Report from "../models/Report.js";
-import BannedUser from "../models/Banneduser.js";
+import BannedUser from "../models/BannedUser.js";
 import User from "../models/User.js";
 
 export const createReport = async (req, res) => {
